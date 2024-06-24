@@ -1,0 +1,1 @@
+rvzr fuzz -s base.json -n 100 -i 10  -c config.yaml -w ./violations
