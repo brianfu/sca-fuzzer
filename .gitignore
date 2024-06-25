@@ -19,3 +19,8 @@ src/x86/executor/measurement.o.ur-safe
 dbg/
 site
 dist/
+
+# Custom
+coverage.txt
+fenced.*
+generated*

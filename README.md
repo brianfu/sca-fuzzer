@@ -34,10 +34,11 @@ The preferred installation method is using `pip` within a virtual environment.
 The environment must be running Python 3.9 or later.
 
 ```bash
-sudo apt install python3.9 python3.9-venv
+sudo apt install python3.10 python3.10-venv
 /usr/bin/python3.9 -m pip install virtualenv
 /usr/bin/python3.9 -m virtualenv ~/venv-revizor
 source ~/venv-revizor/bin/activate
+pip install scipy xxhash pyelftools
 pip install revizor-fuzzer
 ```
 
