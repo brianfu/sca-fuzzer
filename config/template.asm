@@ -23,6 +23,8 @@
     # Write-back Invalidate; Clear the cache!
     wbinvd
 
+    # Reset all regs and/or set them from sandboxed memory e.g. [r14+0x2000/0x2008... etc]
+
     .macro.measurement_start:
 
     # Lots of accesses to see if any of them differ due to prev. set PF uarch state

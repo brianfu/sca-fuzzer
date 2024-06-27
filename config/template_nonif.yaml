@@ -31,7 +31,7 @@ executor_sample_sizes: # Run every test N times and compare distributions, each 
   - 15 # Used for early priming
   - 40
   - 160
-  - 320
+  - 320 # Could be not large enough to deal with uarch noise
 
 # Fuzzer
 enable_observation_filter: true
@@ -59,7 +59,7 @@ instruction_categories:
   - LONGMODE-SEMAPHORE
 
 # Output
-color: true
+# color: true
 logging_modes:
   - info
   - stat
