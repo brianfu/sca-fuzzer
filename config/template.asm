@@ -25,12 +25,40 @@
 
     # Reset all regs and/or set them from sandboxed memory e.g. [r14+0x2000/0x2008... etc]
 
+    # Disable PFs; edx:eax; store edx:eax, id ecx
+    mov ecx, 0x1a4
+    mov edx, 0
+    mov eax, 0b0000
+    wrmsr
+    mfence
+
     .macro.measurement_start:
+
+    # Enable PFs; edx:eax; store edx:eax, id ecx
+    mov ecx, 0x1a4
+    mov edx, 0
+    mov eax, 0b1111
+    wrmsr
+    mfence
 
     # Lots of accesses to see if any of them differ due to prev. set PF uarch state
     .macro.random_instructions.48.32:
 
+    # Disable PFs; edx:eax; store edx:eax, id ecx
+    mov ecx, 0x1a4
+    mov edx, 0
+    mov eax, 0b0000
+    wrmsr
+    mfence
+
     .macro.measurement_end:
+
+    # Enable PFs; edx:eax; store edx:eax, id ecx
+    mov ecx, 0x1a4
+    mov edx, 0
+    mov eax, 0b1111
+    wrmsr
+    mfence
 
     # Jump back to main actor to exit
     .macro.switch.main.function_main_1:

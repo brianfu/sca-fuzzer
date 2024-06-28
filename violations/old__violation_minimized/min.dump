@@ -1,0 +1,79 @@
+
+program_minimized.asm.patched.o:     file format elf64-x86-64
+
+
+Disassembly of section .data.main:
+
+0000000000000000 <.function_main_0>:
+   0:	0f 1f 40 01          	nopl   0x1(%rax)
+   4:	83 c7 33             	add    $0x33,%edi
+   7:	48 81 e7 ff 1f 00 00 	and    $0x1fff,%rdi
+   e:	49 03 14 3e          	add    (%r14,%rdi,1),%rdx
+  12:	0f ca                	bswap  %edx
+  14:	48 81 e1 f8 1f 00 00 	and    $0x1ff8,%rcx
+  1b:	0f 1f 44 40 01       	nopl   0x1(%rax,%rax,2)
+  20:	87 f1                	xchg   %esi,%ecx
+  22:	48 81 e3 ff 1f 00 00 	and    $0x1fff,%rbx
+  29:	0f 1f 44 40 01       	nopl   0x1(%rax,%rax,2)
+  2e:	0f 1f 40 01          	nopl   0x1(%rax)
+  32:	48 81 e3 ff 1f 00 00 	and    $0x1fff,%rbx
+  39:	0f 1f 40 01          	nopl   0x1(%rax)
+  3d:	48 81 e6 ff 1f 00 00 	and    $0x1fff,%rsi
+  44:	0f 1f 44 40 01       	nopl   0x1(%rax,%rax,2)
+  49:	90                   	nop
+  4a:	0f 1f 40 01          	nopl   0x1(%rax)
+  4e:	0f 1f 40 01          	nopl   0x1(%rax)
+  52:	48 81 e2 ff 1f 00 00 	and    $0x1fff,%rdx
+  59:	49 8b 14 16          	mov    (%r14,%rdx,1),%rdx
+  5d:	48 81 e6 ff 1f 00 00 	and    $0x1fff,%rsi
+  64:	0f 1f 44 40 01       	nopl   0x1(%rax,%rax,2)
+  69:	48 89 f7             	mov    %rsi,%rdi
+  6c:	0f 1f 00             	nopl   (%rax)
+  6f:	48 25 ff 1f 00 00    	and    $0x1fff,%rax
+  75:	0f 1f 44 40 01       	nopl   0x1(%rax,%rax,2)
+  7a:	0f 1f 00             	nopl   (%rax)
+  7d:	48 81 e6 ff 1f 00 00 	and    $0x1fff,%rsi
+  84:	0f 1f 44 40 01       	nopl   0x1(%rax,%rax,2)
+  89:	48 81 e7 ff 1f 00 00 	and    $0x1fff,%rdi
+  90:	66 41 0f 48 1c 3e    	cmovs  (%r14,%rdi,1),%bx
+  96:	48 25 ff 1f 00 00    	and    $0x1fff,%rax
+  9c:	41 fe 0c 06          	decb   (%r14,%rax,1)
+  a0:	48 25 ff 1f 00 00    	and    $0x1fff,%rax
+  a6:	0f 1f 44 40 01       	nopl   0x1(%rax,%rax,2)
+  ab:	0f 1f 40 01          	nopl   0x1(%rax)
+  af:	48 25 ff 1f 00 00    	and    $0x1fff,%rax
+  b5:	66 41 2b 3c 06       	sub    (%r14,%rax,1),%di
+  ba:	0f 1f 40 01          	nopl   0x1(%rax)
+  be:	48 81 e7 ff 1f 00 00 	and    $0x1fff,%rdi
+  c5:	41 0f 4d 1c 3e       	cmovge (%r14,%rdi,1),%ebx
+  ca:	48 81 e3 ff 1f 00 00 	and    $0x1fff,%rbx
+  d1:	0f 1f 44 40 01       	nopl   0x1(%rax,%rax,2)
+  d6:	48 81 e2 ff 1f 00 00 	and    $0x1fff,%rdx
+  dd:	49 83 04 16 00       	addq   $0x0,(%r14,%rdx,1)
+  e2:	0f 9e c3             	setle  %bl
+  e5:	48 81 e3 ff 1f 00 00 	and    $0x1fff,%rbx
+  ec:	49 0f be 1c 1e       	movsbq (%r14,%rbx,1),%rbx
+  f1:	0f 93 c3             	setae  %bl
+
+00000000000000f4 <.macro.switch.actor2.function_actor2_0>:
+  f4:	0f 1f 44 00 01       	nopl   0x1(%rax,%rax,1)
+
+00000000000000f9 <.function_main_1>:
+  f9:	90                   	nop
+
+Disassembly of section .data.actor2:
+
+0000000000000000 <.function_actor2_0>:
+   0:	0f 09                	wbinvd 
+
+0000000000000002 <.macro.measurement_start>:
+   2:	0f 1f 44 00 01       	nopl   0x1(%rax,%rax,1)
+   7:	66 f7 db             	neg    %bx
+   a:	48 81 e3 f8 1f 00 00 	and    $0x1ff8,%rbx
+  11:	41 89 34 1e          	mov    %esi,(%r14,%rbx,1)
+
+0000000000000015 <.macro.measurement_end>:
+  15:	0f 1f 44 00 01       	nopl   0x1(%rax,%rax,1)
+
+000000000000001a <.macro.switch.main.function_main_1>:
+  1a:	0f 1f 44 00 01       	nopl   0x1(%rax,%rax,1)

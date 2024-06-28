@@ -28,7 +28,7 @@ x86_executor_enable_prefetcher: true
 # program_generator_seed: 481706
 
 # Misc. configuration
-inputs_per_class: 2
+inputs_per_class: 1
 executor_sample_sizes: # Run every test N times and compare distributions, each sample
   # - 15 # Used for early priming
   # - 40
