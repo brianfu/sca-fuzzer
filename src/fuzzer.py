@@ -87,12 +87,24 @@ class FuzzerGeneric(Fuzzer):
         self.initialize_modules()
         self.generation_function = self.asm_parser.parse_file
         return self._start(num_test_cases, num_inputs, timeout, nonstop)
+    
+    def stir(self,
+            num_test_cases: int = 50, # Adjust defaults to adequately clean uarch state
+            num_inputs: int = 50,
+            timeout: int = 0) -> bool:
+        self.initialize_modules()
+        self.generation_function = self.generator.create_test_case
+        CONF.safe_set("stir", True) # Hack since create_test_case does not support multiple actors yet
+        res = self._start(num_test_cases, num_inputs, timeout, nonstop = True, stir = True)
+        CONF.safe_set("stir", False)
+        return res
 
     def _start(self,
                num_test_cases: int,
                num_inputs: int,
                timeout: int,
-               nonstop: bool = False) -> bool:
+               nonstop: bool = False, 
+               stir: bool = False) -> bool:
         start_time = datetime.today()
         self.LOG.fuzzer_start(num_test_cases, start_time)
 
@@ -123,10 +135,17 @@ class FuzzerGeneric(Fuzzer):
             if self.filter(test_case, inputs):
                 continue
 
+            # If just stirring, prevent expensive measurements
+            ignore_list = []
+            if (stir):
+                assert (test_case.asm_path == 'generated.asm'), f"Unexpected given test case {test_case.asm_path} for stirring"
+                assert (not self.input_paths), f"Unexpected given input for stirring"
+                ignore_list.append([i for i in range(num_inputs)])
+                
             # Fuzz the test case
-            violation = self.fuzzing_round(test_case, inputs)
+            violation = self.fuzzing_round(test_case, inputs, ignore_list)
 
-            if violation:
+            if violation and not stir:
                 self.LOG.fuzzer_report_violations(violation, self.model)
                 self.store_test_case(test_case, violation)
                 STAT.violations += 1
@@ -176,7 +195,7 @@ class FuzzerGeneric(Fuzzer):
         if ignore_list:
             self.executor.set_ignore_list(ignore_list)
 
-        # 1. Fast path: Collect traces with minimal nesting and repetitions
+        # 1. Fast path: Collect traces with minimal spec. nesting and repetitions
         violations, ctraces, boosted_inputs, htraces = self._collect_traces(
             inputs,
             n_reps,
@@ -259,6 +278,15 @@ class FuzzerGeneric(Fuzzer):
         if not had_violation:
             STAT.fp_large_sample += 1
             return None
+
+        fuzzer_type = CONF.fuzzer
+        if fuzzer_type != "architectural":
+            CONF.fuzzer = "architectural"
+            violations, _, __, ___ = self._collect_traces(
+                boosted_inputs, n_reps, nesting, reuse_ctraces=ctraces)
+            if violations:
+                self.LOG.error("Arch fuzzer does not match executor!")
+            CONF.fuzzer = fuzzer_type
 
         # Violation survived all checks. Report it
         feedback = self.executor.get_last_feedback()

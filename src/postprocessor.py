@@ -14,7 +14,7 @@ from math import log2
 from copy import deepcopy
 from subprocess import run
 from typing import List, Optional
-from .interfaces import Input, TestCase, Minimizer, Fuzzer, InstructionSetAbstract, EquivalenceClass
+from .interfaces import Input, TestCase, Minimizer, Fuzzer, Generator, InputGenerator, InstructionSetAbstract, EquivalenceClass
 from .model import CTTracer
 from .x86.x86_model import X86UnicornDEH, SANDBOX_CODE_SIZE
 from .config import CONF
@@ -101,10 +101,12 @@ MASK_REPLACEMENTS = {
 class MinimizerViolation(Minimizer):
     ignore_list: List[int]
 
-    def __init__(self, fuzzer: Fuzzer, instruction_set_spec: InstructionSetAbstract):
+    def __init__(self, fuzzer: Fuzzer, stirrer: Fuzzer, instruction_set_spec: InstructionSetAbstract):
         self.instruction_set_spec = instruction_set_spec
         self.fuzzer = fuzzer
         self.fuzzer.initialize_modules()
+        self.stirrer = stirrer
+        self.stirrer.initialize_modules()
         self.ignore_list = []
         self.LOG = Logger()
         self.LOG.info = False
@@ -115,7 +117,7 @@ class MinimizerViolation(Minimizer):
             enable_multipass: bool, enable_violation_comments: bool):
         assert CONF.instruction_set == "x86-64", "Postprocessor supports only x86-64 so far"
         if (enable_minimize_inputs or find_min_input_sequence) and not min_input_destination:
-            self.LOG.error("ERROR: Flags --find-min-input-sequence and --minimize-inputs require \n"
+            self.LOG.error("ERROR: Flags --find-min-input-sequence and --find-min-inputs require \n"
                            "flag --min-input-destination to be set.")
             return
 
@@ -140,6 +142,7 @@ class MinimizerViolation(Minimizer):
         print("Trying to reproduce...", end='')
         for _ in range(CONF.minimizer_retries):
             violation = self.fuzzer.fuzzing_round(test_case, inputs)
+            self.stirrer.stir()
             if violation:
                 break
         else:
@@ -690,6 +693,7 @@ class MinimizerViolation(Minimizer):
     # Hook functions
     def _check_for_violation(self, test_case: TestCase, inputs: List[Input]) -> bool:
         for _ in range(CONF.minimizer_retries):
+            self.stirrer.stir()
             if self.fuzzer.fuzzing_round(test_case, inputs, self.ignore_list) is not None:
                 return True
         return False

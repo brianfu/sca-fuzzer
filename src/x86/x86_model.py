@@ -75,12 +75,12 @@ class X86MacroInterpreter(MacroInterpreter):
         macros: Dict[str, Callable] = {
             "measurement_start": self.macro_measurement_start,
             "measurement_end": self.macro_measurement_end,
-            "switch": self.macro_switch,
-            "switch_k2u": self.macro_switch_k2u,
+            "switch": self.macro_switch, # Jump from kernel to kernel (user mode same jumps not supported)
+            "switch_k2u": self.macro_switch_k2u, # Kernel to User
             "switch_u2k": self.macro_switch_u2k,
             "set_k2u_target": self.macro_set_k2u_target,
             "set_u2k_target": self.macro_set_u2k_target,
-            "switch_h2g": self.macro_switch_h2g,
+            "switch_h2g": self.macro_switch_h2g, # Host to Guest
             "switch_g2h": self.macro_switch_g2h,
             "set_h2g_target": self.macro_set_h2g_target,
             "set_g2h_target": self.macro_set_g2h_target,
@@ -88,8 +88,8 @@ class X86MacroInterpreter(MacroInterpreter):
             "landing_u2k": self.macro_landing_u2k,
             "landing_h2g": self.macro_landing_h2g,
             "landing_g2h": self.macro_landing_g2h,
-            "fault_handler": lambda *_: None,
-            "set_data_permissions": self.macro_set_data_permissions,
+            "fault_handler": lambda *_: None, # Land here for fault
+            "set_data_permissions": self.macro_set_data_permissions, # Page permissions
         }
 
         actor_id = self.model.current_actor.id_

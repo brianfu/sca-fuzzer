@@ -30,7 +30,8 @@ class Conf:
     enable_fast_path_model: bool = True
     """ enable_fast_path_boosting: if enabled, the same contract trace will be used
     for all inputs in the same taint-based input class """
-
+    stir: bool = False
+    """ Hack to force the stirrer to generate new test cases when multiple actors fuzzed """
     # ==============================================================================================
     # Program Generator
     generator: str = "random"

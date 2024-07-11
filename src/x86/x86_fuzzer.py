@@ -64,9 +64,10 @@ class X86Fuzzer(FuzzerGeneric):
                num_test_cases: int,
                num_inputs: int,
                timeout: int,
-               nonstop: bool = False) -> bool:
+               nonstop: bool = False,
+               stir: bool = False) -> bool:
         check_instruction_list(self.instruction_set)
-        return super()._start(num_test_cases, num_inputs, timeout, nonstop)
+        return super()._start(num_test_cases, num_inputs, timeout, nonstop, stir)
 
     def filter(self, test_case: TestCase, inputs: List[Input]) -> bool:
         """ This function implements a multi-stage algorithm that gradually filters out
@@ -149,6 +150,7 @@ class X86ArchitecturalFuzzer(ArchitecturalFuzzer):
         return super()._start(num_test_cases, num_inputs, timeout, nonstop)
 
 
+# Zenbleed only
 class X86ArchDiffFuzzer(FuzzerGeneric):
     executor: X86IntelExecutor
 

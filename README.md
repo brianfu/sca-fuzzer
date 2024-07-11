@@ -38,7 +38,7 @@ sudo apt install python3.10 python3.10-venv
 /usr/bin/python3.9 -m pip install virtualenv
 /usr/bin/python3.9 -m virtualenv ~/venv-revizor
 source ~/venv-revizor/bin/activate
-pip install scipy xxhash pyelftools
+pip install scipy xxhash pyelftools numpy unicorn==1.0.3
 pip install revizor-fuzzer
 ```
 

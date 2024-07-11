@@ -24,11 +24,11 @@ _option_values = {
         'x86-64-amd',
     ],
     'executor_mode': [
-        'P+P',
-        'F+R',
-        'E+R',
-        'PP+P',
-        'TSC',
+        'P+P', # Prime + Probe
+        'F+R', # Flush + Reload
+        'E+R', # Evict + Reload
+        'PP+P', # Partial Prime + Reload
+        'TSC', # Time-Stamp Counter
         # 'GPR' is intentionally left out
     ],
     'generator_faults_allowlist': [

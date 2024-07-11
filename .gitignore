@@ -24,3 +24,4 @@ dist/
 coverage.txt
 fenced.*
 generated*
+violations/

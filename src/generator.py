@@ -19,6 +19,7 @@ from .interfaces import Generator, TestCase, Operand, RegisterOperand, FlagsOper
     Function, OperandSpec, InstructionSpec, CondOperand, Actor, ActorMode, ActorPL
 from .util import NotSupportedException, Logger
 from .config import CONF
+from collections import OrderedDict
 
 
 class GeneratorException(Exception):
@@ -57,6 +58,7 @@ class ConfigurableGenerator(Generator, abc.ABC):
     parsed_template: Optional[TestCase] = None
     passes: List[Pass]  # set by subclasses
     printer: Printer  # set by subclasses
+    single_actor: OrderedDict # Workaround for fuzz single actor only; set by subclasses
 
     LOG: Logger  # name capitalized to make logging easily distinguishable from the main logic
 
@@ -107,7 +109,11 @@ class ConfigurableGenerator(Generator, abc.ABC):
         self.update_seed()
 
         # create actors
-        if len(CONF._actors) != 1:
+        if CONF.stir:
+            # Grab first item and call it a day
+            self.single_actor = OrderedDict([next(iter(CONF._actors.items()))])
+            assert [next(iter(self.single_actor.items()))][0][0] == "main" # Otherwise default actor assignmment will fail
+        if len(CONF._actors) != 1 and not CONF.stir:
             self.LOG.error("Generation of test cases with multiple actors is not yet supported")
         self.create_actors(self.test_case)
 
@@ -261,7 +267,13 @@ class ConfigurableGenerator(Generator, abc.ABC):
                 mask |= bit_value << bit_offset
             return mask
 
-        for name, desc in CONF._actors.items():
+        # Hack to workaround single actor only
+        if CONF.stir:
+            actors = self.single_actor
+        else:
+            actors = CONF._actors
+            
+        for name, desc in actors.items():
             # determine the actor mode of execution
             if desc['mode'] == "host":
                 mode = ActorMode.HOST

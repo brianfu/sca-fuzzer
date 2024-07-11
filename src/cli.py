@@ -214,6 +214,11 @@ def main() -> int:
         action='store_true',
         default=False,
         help="Add comments to the assembly file with details about the violation\n.")
+    parser_mini.add_argument(
+        '-w',
+        '--working-directory',
+        type=str,
+        default='')
 
     # ==============================================================================================
     # Standalone interface to test case generation
@@ -347,7 +352,11 @@ def main() -> int:
     # Test case minimization
     if args.subparser_name == "minimize":
         fuzzer = get_fuzzer(args.instruction_set, "", args.genfile, "")
-        minimizer = get_minimizer(fuzzer, args.instruction_set)
+        
+        # Break dependency between minimizer runs
+        stirrer = get_fuzzer(args.instruction_set, args.working_directory, "", "") 
+        
+        minimizer = get_minimizer(fuzzer, stirrer, args.instruction_set)
         minimizer.run(args.genfile, args.outfile, args.num_inputs, not args.no_minimize,
                       args.simplify, args.add_fences, args.find_sources,
                       args.find_min_input_sequence, args.find_min_inputs,

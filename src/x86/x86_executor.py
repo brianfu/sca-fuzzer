@@ -217,7 +217,7 @@ class X86Executor(Executor):
                     if input_id not in self.ignore_list:
                         raw_trace = int(row[0])
                         if CONF.executor_mode == 'TSC' and CONF.fuzzer != 'architectural':
-                            all_results[input_id][rep]['htrace'] = raw_trace & 0x0FFFFFFFFFFFFFF0
+                            all_results[input_id][rep]['htrace'] = raw_trace & 0x0FFFFFFFFFFFFFFF
                         else:
                             all_results[input_id][rep]['htrace'] = raw_trace
 

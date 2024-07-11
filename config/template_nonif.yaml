@@ -18,12 +18,12 @@ actors:
 # Detect violations via Chi2-test with a threshold of 0.05
 # At the cost of false negatives; Closer to 1, less tolerance to noise
 analyser: chi2
-analyser_stat_threshold: 0.2
+analyser_stat_threshold: 0.2 # Default: 0.2
 
 # Executor
-executor_mode: PP+P
+executor_mode: F+R
 x86_executor_enable_ssbp_patch: true
-x86_executor_enable_prefetcher: true
+x86_executor_enable_prefetcher: false # Test: Only true within measurement area!
 
 # Misc. configuration
 inputs_per_class: 2
@@ -34,7 +34,9 @@ executor_sample_sizes: # Run every test N times and compare distributions, each 
   - 320 # Could be not large enough to deal with uarch noise
 
 # Fuzzer
-enable_observation_filter: true
+# fuzzer: architectural
+enable_speculation_filter: false
+enable_observation_filter: false # Would filter out prefetcher-only violations
 enable_fast_path_model: true
 coverage_type: model_instructions
 
@@ -73,3 +75,5 @@ logging_modes:
   # - dbg_dump_htraces
   # - dbg_dump_ctraces
   # - dbg_dump_traces_unlimited
+
+# program_generator_seed: 12345

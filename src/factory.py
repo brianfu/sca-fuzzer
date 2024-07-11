@@ -161,9 +161,9 @@ def get_analyser() -> interfaces.Analyser:
     return _get_from_config(ANALYSERS, CONF.analyser, "analyser")
 
 
-def get_minimizer(fuzzer: interfaces.Fuzzer,
+def get_minimizer(fuzzer: interfaces.Fuzzer, stirrer :interfaces.Fuzzer,
                   instruction_set: interfaces.InstructionSetAbstract) -> interfaces.Minimizer:
-    return _get_from_config(MINIMIZERS, CONF.minimizer, "minimizer", fuzzer, instruction_set)
+    return _get_from_config(MINIMIZERS, CONF.minimizer, "minimizer", fuzzer, stirrer, instruction_set)
 
 
 def get_downloader(arch: str, extensions: List[str], out_file: str) -> Callable:
