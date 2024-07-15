@@ -279,6 +279,8 @@ class FuzzerGeneric(Fuzzer):
             STAT.fp_large_sample += 1
             return None
 
+        # 2.5 FP might appear because of a bug in the model. 
+        # Re-run with architectural fuzzer to verify correctness
         fuzzer_type = CONF.fuzzer
         if fuzzer_type != "architectural":
             CONF.fuzzer = "architectural"
@@ -292,7 +294,7 @@ class FuzzerGeneric(Fuzzer):
                                 Detected: {datetime.today().strftime('%d.%m.%y at %H:%M:%S')} \n \
                                 Arch fuzzer does not match executor!")
                 CONF.fuzzer = fuzzer_type
-                return None
+                return None # Let caller decide whether to keep fuzzing
             CONF.fuzzer = fuzzer_type
 
         # Violation survived all checks. Report it
