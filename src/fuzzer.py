@@ -260,23 +260,20 @@ class FuzzerGeneric(Fuzzer):
             STAT.fp_large_sample += 1
             return None
 
-        # 2.5 FP might appear because of a bug in the model.
-        # Re-run with architectural fuzzer to verify correctness
-        fuzzer_type = CONF.fuzzer
-        if fuzzer_type != "architectural":
+        # 2.5 FP might appear because of a mismatch between the model and the executor.
+        #     Such cases are rare, and they are considered as bugs, but they still happen
+        #     occasionally. To check for such FPs, we re-run in the architectural mode that
+        #     compares the output of the model with the output of the CPU
+        if CONF.fuzzer != "architectural":
+            conf_fuzzer_backup = CONF.fuzzer
             CONF.fuzzer = "architectural"
-            violations, _, __, ___ = self._collect_traces(
-                boosted_inputs, n_reps, nesting)
+            violations, _, __, ___ = self._collect_traces(boosted_inputs, n_reps, nesting)
+            CONF.fuzzer = conf_fuzzer_backup
             if violations:
+                STAT.fp_architectural += 1
+                self.LOG.warning("fuzzer", "Architectural mode detected a bug in the model.")
                 self.store_test_case(test_case, violations[0], bug=True)
-                self.LOG.warning("fuzzer", f"False Positive Detected! \n \
-                                Program Seed: {test_case.seed} \n \
-                                Input Seed: {violations[0].input_sequence[0].seed} \n \
-                                Detected: {datetime.today().strftime('%d.%m.%y at %H:%M:%S')} \n \
-                                Arch fuzzer does not match executor!")
-                CONF.fuzzer = fuzzer_type
                 return None  # Let caller decide whether to keep fuzzing
-            CONF.fuzzer = fuzzer_type
 
         # Violation survived all checks. Report it
         feedback = self.executor.get_last_feedback()

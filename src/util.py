@@ -46,6 +46,7 @@ class StatisticsCls:
     fp_early_priming: int = 0
     fp_large_sample: int = 0
     fp_priming: int = 0
+    fp_architectural: int = 0
 
     # Implementation of Borg pattern
     def __init__(self) -> None:
@@ -75,6 +76,7 @@ class StatisticsCls:
         s += f"  Early Priming Check: {self.fp_early_priming}\n"
         s += f"  Large Sample Check: {self.fp_large_sample}\n"
         s += f"  Priming Check: {self.fp_priming}\n"
+        s += f"  Architectural Bugs: {self.fp_architectural}\n"
         return s
 
     def get_brief(self):
@@ -99,6 +101,7 @@ class StatisticsCls:
                  f"P1:{self.fp_early_priming}," \
                  f"CS:{self.fp_large_sample}," \
                  f"P2:{self.fp_priming}," \
+                 f"AR:{self.fp_architectural}," \
                  f"V:{self.violations}"
             return s
 
