@@ -14,7 +14,7 @@ make clean && make && make install;
 
 ## Run fuzzer ##
 cd $RVZR_DIR;
-TEST_PROGS=10000; # Default: 1000000
+TEST_PROGS=1000000; # Default: 1000000
 TEST_INPUTS=50; # Default: 50 (Less inputs, more test cases better)
 
 # echo "Non-Template Run";

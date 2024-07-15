@@ -23,7 +23,7 @@ analyser_stat_threshold: 0.2 # Default: 0.2
 # Executor
 executor_mode: F+R
 x86_executor_enable_ssbp_patch: true
-x86_executor_enable_prefetcher: false # Test: Only true within measurement area!
+x86_executor_enable_prefetcher: true # Test: Only true within measurement area!
 
 # Misc. configuration
 inputs_per_class: 2
@@ -35,8 +35,8 @@ executor_sample_sizes: # Run every test N times and compare distributions, each 
 
 # Fuzzer
 # fuzzer: architectural
-enable_speculation_filter: false
-enable_observation_filter: false # Would filter out prefetcher-only violations
+enable_speculation_filter: false # PFs vios do not necessarily require execution of transient insts.
+enable_observation_filter: false # PFs vios do not necessarily cause speculative cache evictions
 enable_fast_path_model: true
 coverage_type: model_instructions
 
