@@ -352,11 +352,14 @@ class FuzzerGeneric(Fuzzer):
             boosted_inputs += self.input_gen.extend_equivalence_classes(inputs, taints)
         return boosted_inputs, ctraces
 
-    def store_test_case(self, test_case: TestCase, violation: EquivalenceClass):
+    def store_test_case(self, test_case: TestCase, violation: EquivalenceClass, bug: bool = False):
         if not self.work_dir:
             return
         timestamp = datetime.today().strftime('%y%m%d-%H%M%S')
-        violation_dir = f"{self.work_dir}/violation-{timestamp}"
+        if bug:
+            violation_dir = f"{self.work_dir}/bug-{timestamp}"
+        else:
+            violation_dir = f"{self.work_dir}/violation-{timestamp}"
         Path(self.work_dir).mkdir(exist_ok=True)
         Path(violation_dir).mkdir()
 
