@@ -283,7 +283,7 @@ class FuzzerGeneric(Fuzzer):
         if fuzzer_type != "architectural":
             CONF.fuzzer = "architectural"
             violations, _, __, ___ = self._collect_traces(
-                boosted_inputs, n_reps, nesting, reuse_ctraces=ctraces)
+                boosted_inputs, n_reps, nesting)
             if violations:
                 self.store_test_case(test_case, violations[0], bug=True)
                 self.LOG.warning("fuzzer", f"False Positive Detected! \n \
