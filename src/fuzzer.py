@@ -285,7 +285,14 @@ class FuzzerGeneric(Fuzzer):
             violations, _, __, ___ = self._collect_traces(
                 boosted_inputs, n_reps, nesting, reuse_ctraces=ctraces)
             if violations:
-                self.LOG.error("Arch fuzzer does not match executor!")
+                self.store_test_case(test_case, violations[0], bug=True)
+                self.LOG.warning("fuzzer", f"False Positive Detected! \n \
+                                Program Seed: {test_case.seed} \n \
+                                Input Seed: {violations[0].input_sequence[0].seed} \n \
+                                Detected: {datetime.today().strftime('%d.%m.%y at %H:%M:%S')} \n \
+                                Arch fuzzer does not match executor!")
+                CONF.fuzzer = fuzzer_type
+                return None
             CONF.fuzzer = fuzzer_type
 
         # Violation survived all checks. Report it
@@ -362,11 +369,14 @@ class FuzzerGeneric(Fuzzer):
             boosted_inputs += self.input_gen.extend_equivalence_classes(inputs, taints)
         return boosted_inputs, ctraces
 
-    def store_test_case(self, test_case: TestCase, violation: EquivalenceClass):
+    def store_test_case(self, test_case: TestCase, violation: EquivalenceClass, bug: bool = False):
         if not self.work_dir:
             return
         timestamp = datetime.today().strftime('%y%m%d-%H%M%S')
-        violation_dir = f"{self.work_dir}/violation-{timestamp}"
+        if bug:
+            violation_dir = f"{self.work_dir}/bug-{timestamp}"
+        else:
+            violation_dir = f"{self.work_dir}/violation-{timestamp}"
         Path(self.work_dir).mkdir(exist_ok=True)
         Path(violation_dir).mkdir()
 
