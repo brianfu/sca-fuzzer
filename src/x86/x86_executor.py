@@ -17,6 +17,7 @@ from ..interfaces import HTrace, Input, TestCase, Executor
 from ..config import CONF
 from ..util import Logger, STAT
 from .x86_target_desc import X86TargetDesc
+import time
 
 
 def write_to_sysfs_file(value, path: str) -> None:
@@ -101,7 +102,8 @@ class X86Executor(Executor):
 
         # initialize the kernel module
         self.set_vendor_specific_features()
-        write_to_sysfs_file(CONF.executor_warmups, '/sys/x86_executor/warmups')
+        write_to_sysfs_file(CONF.executor_first_warmups, '/sys/x86_executor/first_warmups')
+        write_to_sysfs_file(CONF.executor_round_warmups, '/sys/x86_executor/round_warmups')
         write_to_sysfs_file("1" if getattr(CONF, 'x86_executor_enable_ssbp_patch') else "0",
                             "/sys/x86_executor/enable_ssbp_patch")
         write_to_sysfs_file("1" if getattr(CONF, 'x86_executor_enable_prefetcher') else "0",
@@ -201,6 +203,8 @@ class X86Executor(Executor):
             # until we find the `done` keyword in the output
             reading_finished = False
             while not reading_finished:
+                time.sleep(CONF.delay_between_runs) # Let the core go back to a lower power state
+    
                 output = subprocess.check_output(cmd, shell=True)
                 reader = csv.reader(output.decode().split("\n"))
                 for row in reader:

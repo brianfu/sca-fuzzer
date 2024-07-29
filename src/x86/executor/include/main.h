@@ -26,8 +26,10 @@ typedef enum {
 extern bool quick_and_dirty_mode;
 extern measurement_mode_e measurement_mode;
 #define MEASUREMENT_MODE_DEFAULT PRIME_PROBE
-extern long uarch_reset_rounds;
-#define UARCH_RESET_ROUNDS_DEFAULT 1
+extern long uarch_first_warmups;
+#define UARCH_FIRST_WARMUPS_DEFAULT 0
+extern long uarch_round_warmups;
+#define UARCH_ROUND_WARMUPS_DEFAULT 0
 extern bool enable_ssbp_patch;
 #define SSBP_PATCH_DEFAULT true
 extern bool enable_prefetchers;

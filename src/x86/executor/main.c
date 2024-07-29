@@ -62,7 +62,8 @@ int (*set_memory_nx)(unsigned long, int) = 0;
 // Global Variables
 bool quick_and_dirty_mode = false;
 
-long uarch_reset_rounds = UARCH_RESET_ROUNDS_DEFAULT;
+long uarch_first_warmups = UARCH_FIRST_WARMUPS_DEFAULT;
+long uarch_round_warmups = UARCH_ROUND_WARMUPS_DEFAULT;
 bool enable_ssbp_patch = SSBP_PATCH_DEFAULT;
 bool enable_prefetchers = PREFETCHER_DEFAULT;
 bool enable_mpx = MPX_DEFAULT; // unused on AMD
@@ -114,12 +115,19 @@ static ssize_t inputs_store(struct kobject *kobj, struct kobj_attribute *attr, c
 static ssize_t inputs_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf);
 static struct kobj_attribute inputs_attribute = __ATTR(inputs, 0666, inputs_show, inputs_store);
 
-/// Setting the number of warm up rounds
+/// Setting the number of warmups using first inputs
 ///
-static ssize_t warmups_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf);
-static ssize_t warmups_store(struct kobject *kobj, struct kobj_attribute *attr, const char *buf,
+static ssize_t first_warmups_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf);
+static ssize_t first_warmups_store(struct kobject *kobj, struct kobj_attribute *attr, const char *buf,
                              size_t count);
-static struct kobj_attribute warmups_attribute = __ATTR(warmups, 0666, warmups_show, warmups_store);
+static struct kobj_attribute first_warmups_attribute = __ATTR(first_warmups, 0666, first_warmups_show, first_warmups_store);
+
+/// Setting the number of total inputs rounds for warmup
+///
+static ssize_t round_warmups_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf);
+static ssize_t round_warmups_store(struct kobject *kobj, struct kobj_attribute *attr, const char *buf,
+                             size_t count);
+static struct kobj_attribute round_warmups_attribute = __ATTR(round_warmups, 0666, round_warmups_show, round_warmups_store);
 
 /// Getting the sandbox base address
 ///
@@ -205,7 +213,8 @@ static struct attribute *sysfs_attributes[] = {
     &trace_attribute.attr,
     &test_case_attribute.attr,
     &inputs_attribute.attr,
-    &warmups_attribute.attr,
+    &first_warmups_attribute.attr,
+    &round_warmups_attribute.attr,
     &print_sandbox_base_attribute.attr,
     &print_code_base_attribute.attr,
     &enable_ssbp_patch_attribute.attr,
@@ -346,15 +355,27 @@ static ssize_t inputs_show(struct kobject *kobj, struct kobj_attribute *attr, ch
     return sprintf(buf, "%d\n", inputs_ready);
 }
 
-static ssize_t warmups_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf)
+static ssize_t first_warmups_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf)
 {
-    return sprintf(buf, "%ld\n", uarch_reset_rounds);
+    return sprintf(buf, "%ld\n", uarch_first_warmups);
 }
 
-static ssize_t warmups_store(struct kobject *kobj, struct kobj_attribute *attr, const char *buf,
+static ssize_t first_warmups_store(struct kobject *kobj, struct kobj_attribute *attr, const char *buf,
                              size_t count)
 {
-    sscanf(buf, "%ld", &uarch_reset_rounds);
+    sscanf(buf, "%ld", &uarch_first_warmups);
+    return count;
+}
+
+static ssize_t round_warmups_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf)
+{
+    return sprintf(buf, "%ld\n", uarch_round_warmups);
+}
+
+static ssize_t round_warmups_store(struct kobject *kobj, struct kobj_attribute *attr, const char *buf,
+                             size_t count)
+{
+    sscanf(buf, "%ld", &uarch_round_warmups);
     return count;
 }
 
@@ -506,7 +527,8 @@ static ssize_t dbg_dump_show(struct kobject *kobj, struct kobj_attribute *attr, 
     len += sprintf(&buf[len], "fault_handler: %llx\n", (uint64_t)fault_handler);
     len += sprintf(&buf[len], "handled_faults: %u\n", handled_faults);
     len += sprintf(&buf[len], "quick_and_dirty_mode: %d\n", quick_and_dirty_mode);
-    len += sprintf(&buf[len], "uarch_reset_rounds: %ld\n", uarch_reset_rounds);
+    len += sprintf(&buf[len], "uarch_first_warmups: %ld\n", uarch_first_warmups);
+    len += sprintf(&buf[len], "uarch_round_warmups: %ld\n", uarch_round_warmups);
     len += sprintf(&buf[len], "enable_ssbp_patch: %d\n", enable_ssbp_patch);
     len += sprintf(&buf[len], "enable_prefetchers: %d\n", enable_prefetchers);
     len += sprintf(&buf[len], "pre_run_flush: %d\n", pre_run_flush);

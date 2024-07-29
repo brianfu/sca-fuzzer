@@ -131,34 +131,43 @@ int run_experiment(void)
     if (pre_run_flush == 1 && !quick_and_dirty_mode)
         uarch_flush();
 
+    // for (int i=0; i<1000000; i++) {
+    //     asm_volatile_intel(
+    //         "vpaddq xmm2, xmm1, xmm1\n"
+    //         "vpaddq xmm3, xmm2, xmm2\n"
+    //         "vpaddq xmm1, xmm2, xmm3\n"
+    //         );
+    // }
+
     long rounds = (long)n_inputs;
-    for (long i = -uarch_reset_rounds; i < rounds; i++) {
-        // ignore "warm-up" runs (i<0)uarch_reset_rounds
-        long i_ = (i < 0) ? 0 : i;
+    for (long k = 0; k < uarch_round_warmups + 1; k++) {
+        for (long i = -uarch_first_warmups; i < rounds; i++) {
+            // ignore "warm-up" runs (i<0)uarch_reset_rounds
+            long i_ = (i < 0) ? 0 : i;
 
-        // Prepare sandbox
-        load_sandbox_data(i_);
-        set_faulty_page_permissions();
+            // Prepare sandbox
+            load_sandbox_data(i_);
+            set_faulty_page_permissions();
 
-        // Catch all exceptions
-        set_test_case_idt();
+            // Catch all exceptions
+            set_test_case_idt();
 
-        // execute
-        char *main_data = &sandbox->data[0].main_area[0];
-        err = ((int (*)(char *))loaded_test_case_entry)(main_data);
+            // execute
+            char *main_data = &sandbox->data[0].main_area[0];
+            err = ((int (*)(char *))loaded_test_case_entry)(main_data);
 
-        unset_test_case_idt();
-        restore_faulty_page_permissions();
-        if (err)
-            goto cleanup;
+            unset_test_case_idt();
+            restore_faulty_page_permissions();
+            if (err)
+                goto cleanup;
 
-        // store the measurement
-        // printk(KERN_ERR "x86_executor: measurement %llu\n", result.htrace[0]);
-        measurement_t result = sandbox->util->latest_measurement;
-        measurements[i_].htrace[0] = result.htrace[0];
-        memcpy(measurements[i_].pfc_reading, result.pfc_reading, sizeof(uint64_t) * NUM_PFC);
+            // store the measurement
+            // printk(KERN_ERR "x86_executor: measurement %llu\n", result.htrace[0]);
+            measurement_t result = sandbox->util->latest_measurement;
+            measurements[i_].htrace[0] = result.htrace[0];
+            memcpy(measurements[i_].pfc_reading, result.pfc_reading, sizeof(uint64_t) * NUM_PFC);
+        }
     }
-
 cleanup:
     if (err)
         measurements[0].htrace[0] = 0; // communicate the error up to x86_executor.py

@@ -124,8 +124,11 @@ class Conf:
     """ executor: executor type """
     executor_mode: str = 'P+P'
     """ executor_mode: hardware trace collection mode """
-    executor_warmups: int = 5
-    """ executor_warmups: number of warmup rounds executed before starting to collect
+    executor_first_warmups: int = 5
+    """ executor_warmups: number of warmups using first input executed before starting to collect
+    hardware traces """
+    executor_round_warmups: int = 2
+    """ executor_warmups: number of full warmup rounds executed before starting to collect
     hardware traces """
     executor_sample_sizes: List[int] = [10]
     """ executor_sample_sizes: a list of sample sizes to be used during the measurements;
@@ -141,7 +144,8 @@ class Conf:
     enable_pre_run_flush: bool = True
     """ enable_pre_run_flush: if enabled, the executor will do its best to flush
     the microarchitectural state before running test cases """
-
+    delay_between_runs: float = 0.0
+    """ delay_between_runs: delay between runs in seconds"""
     # ==============================================================================================
     # Analyser
     analyser: str = 'chi2'
