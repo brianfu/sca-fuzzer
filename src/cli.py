@@ -116,6 +116,14 @@ def main() -> int:
     parser_reproduce.add_argument("-s", "--instruction-set", type=str, required=True)
     parser_reproduce.add_argument("-c", "--config", type=str, required=False)
     parser_reproduce.add_argument(
+        "-af",
+        "--archfuzz",
+        action='store_true',
+        default=False,
+        required=False,
+        help="Use architectural fuzzer",
+    )
+    parser_reproduce.add_argument(
         '-t',
         '--testcase',
         type=str,
@@ -392,6 +400,8 @@ def main() -> int:
 
     # Reproducing a violation
     if args.subparser_name == 'reproduce':
+        if (args.archfuzz):
+            CONF.fuzzer = "architectural"
         fuzzer = get_fuzzer(args.instruction_set, "", args.testcase, args.inputs)
         exit_code = fuzzer.start_from_asm(1, args.num_inputs, 0, False)
         return exit_code
