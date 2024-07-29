@@ -40,10 +40,10 @@ enable_observation_filter: false # PFs vios do not necessarily cause speculative
 enable_fast_path_model: true
 coverage_type: model_instructions
 
-executor_first_warmups: 5 # Run warmups of first input
-executor_round_warmups: 0 # Run rounds before measurement
+# executor_first_warmups: 5 # Run warmups of first input
+# executor_round_warmups: 0 # Run rounds before measurement
 executor_taskset: 1 # Use isolated core
-delay_between_runs: 0.0 # Delay between executor runs
+# delay_between_runs: 0.0 # Delay between executor runs
 
 instruction_categories:
   - BASE-BINARY
