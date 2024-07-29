@@ -1,0 +1,17 @@
+
+INFO: [fuzzer] Starting at 16:10:00
+> Entering slow path...> Priming  1              > Increase sample size to 40> Priming  1              > Increase sample size to 160> Priming  1              > Increase sample size to 320> Priming  1             
+
+================================ Violations detected ==========================
+Contract trace:
+ 3626521298596819718 (hash)
+Hardware traces:
+  Input group 1: [1]
+  Input group 2: [4]
+  ^^....^............^...........^................................ [256    | 0     ]
+  ^^....^........................^................................ [64     | 0     ]
+  ^.....^............^...........^................................ [0      | 320   ]
+
+
+Duration: 1.2
+Finished at 16:10:01

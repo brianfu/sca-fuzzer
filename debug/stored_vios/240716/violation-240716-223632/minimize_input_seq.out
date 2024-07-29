@@ -1,0 +1,36 @@
+[PASS 1] Reproducing the violation
+  > Violation reproduced. Proceeding with minimization
+[PASS 2] Input Sequence Minimization
+  > Reducing the number of inputs by halving
+  > Result: Could not reduce the number of inputs
+  > Reducing the input sequence iteratively
+  > Iteration 1
+
+.....---.......-----.....---------------------------------------
+--------...-------------------------
+  > Iteration 2
+
+---------------------------
+----------------------------------------.------.------
+  > Iteration 3
+
+--.------
+----.---..--.-.----....-....--.-.------------------------------
+-------
+  > Iteration 4
+
+--------------------------------------------------------
+-------
+  > Result: Reduced to 63 inputs
+  > Saving new inputs in '/home/brian/code/sca-fuzzer/dbg/stored_vios/240716/violation-240716-223632/min_input_sequence'
+  > Violating input IDs: [38, 62]
+[INFO] Minimization attempt 1/1
+[PASS 3] Instruction Removal Pass
+
+------------------------------
+[PASS 4] Violation Comment Insertion
+[PASS 5] Label Removal Pass
+
+----------------------------------------------------------------
+--------------------------------------------------
+[PASS 6] Storing the results
