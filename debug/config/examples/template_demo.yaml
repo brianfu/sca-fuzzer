@@ -1,0 +1,39 @@
+# Actor configuration: A host and a user process
+actors:
+  - main:
+    - mode: "host"
+    - privilege_level: "kernel"
+    # - observer: true  # uncomment for non-interference contract
+  - actor2:
+    - mode: "host"
+    - privilege_level: "kernel"
+
+
+contract_observation_clause: ct
+contract_execution_clause:
+  - seq  # uncomment for non-interference contract
+  # - noninterference
+
+# Detect violations via Chi2-test with a threshold of 0.05
+analyser: chi2 # Chi-squared Pearson Test for homogeneity (too many false positives); Need for pfs
+analyser_stat_threshold: 0.2
+
+# Misc. configuration
+inputs_per_class: 2
+executor_sample_sizes: # Run every test N times and compare distributions, each sample
+  - 15 # Used for early priming
+  - 40
+  - 160
+  - 320
+
+# Debug output
+color: true
+logging_modes:
+  - info
+  # - dbg_violation
+  # - dbg_dump_htraces
+  # - dbg_dump_ctraces
+  # - dbg_dump_traces_unlimited
+  # - dbg_model
+  # - dbg_priming
+  # - dbg_executor_raw
