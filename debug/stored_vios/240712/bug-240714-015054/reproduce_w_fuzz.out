@@ -1,0 +1,20 @@
+
+INFO: [fuzzer] Starting at 17:42:24
+Traceback (most recent call last):
+  File "/home/brian/code/sca-fuzzer/revizor.py", line 21, in <module>
+    exit_code = main()
+  File "/home/brian/code/sca-fuzzer/src/cli.py", line 394, in main
+    exit_code = fuzzer.start_from_asm(args.num_test_cases, args.num_inputs, args.timeout,
+  File "/home/brian/code/sca-fuzzer/src/fuzzer.py", line 89, in start_from_asm
+    return self._start(num_test_cases, num_inputs, timeout, nonstop)
+  File "/home/brian/code/sca-fuzzer/src/x86/x86_fuzzer.py", line 79, in _start
+    return super()._start(num_test_cases, num_inputs, timeout, nonstop)
+  File "/home/brian/code/sca-fuzzer/src/fuzzer.py", line 127, in _start
+    violation = self.fuzzing_round(test_case, inputs)
+  File "/home/brian/code/sca-fuzzer/src/fuzzer.py", line 175, in fuzzing_round
+    self.executor.load_test_case(test_case)
+  File "/home/brian/code/sca-fuzzer/src/x86/x86_executor.py", line 143, in load_test_case
+    self.__write_test_case(test_case)
+  File "/home/brian/code/sca-fuzzer/src/x86/x86_executor.py", line 273, in __write_test_case
+    with open('/sys/x86_executor/test_case', 'wb') as f:
+OSError: [Errno 5] Input/output error

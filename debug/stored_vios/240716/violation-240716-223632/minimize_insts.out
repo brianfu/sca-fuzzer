@@ -1,0 +1,116 @@
+[PASS 1] Reproducing the violation
+  > Violation reproduced. Proceeding with minimization
+  > Violating input IDs: [43, 93]
+[INFO] Minimization attempt 1/10
+[PASS 2] Instruction Removal Pass
+
+...-..--.....-...............-.----------------.-..-.--.----.--.
+-.-...------.------..-----.......-..------------
+[PASS 3] Instruction Simplification Pass
+
+....-.-........-..-.-....------.--.-----..-.-.-..--.-.--..---..-
+.----.---.---------...---------
+[PASS 4] Constant Simplification Pass
+
+----------------------------.-.-----.---.---.--------------.--.-
+--.----------------------.-----
+[INFO] Minimization attempt 2/10
+[PASS 5] Instruction Removal Pass
+
+........................----------------.......-...............-
+........-...........-----------
+[PASS 6] Instruction Simplification Pass
+
+...........-----------------..-.----..-.---..-.---------
+[PASS 7] Constant Simplification Pass
+
+--------------------------------------------------------
+[INFO] Minimization attempt 3/10
+[PASS 8] Instruction Removal Pass
+
+....-...-.------------------..-....-.........-----------
+[PASS 9] Instruction Simplification Pass
+
+......------------.--..--.-----------
+[PASS 10] Constant Simplification Pass
+
+-------------------------------------
+[INFO] Minimization attempt 4/10
+[PASS 11] Instruction Removal Pass
+
+......-------------------.-----------
+[PASS 12] Instruction Simplification Pass
+
+.---------------.--------------
+[PASS 13] Constant Simplification Pass
+
+----------------.--------------
+[INFO] Minimization attempt 5/10
+[PASS 14] Instruction Removal Pass
+
+.------------------------------
+[PASS 15] Instruction Simplification Pass
+
+------------------------------
+[PASS 16] Constant Simplification Pass
+
+------------------------------
+[INFO] Minimization attempt 6/10
+[PASS 17] Instruction Removal Pass
+
+------------------------------
+[PASS 18] Instruction Simplification Pass
+
+------------------------------
+[PASS 19] Constant Simplification Pass
+
+------------------------------
+[INFO] Minimization attempt 7/10
+[PASS 20] Instruction Removal Pass
+
+------------------------------
+[PASS 21] Instruction Simplification Pass
+
+------------------------------
+[PASS 22] Constant Simplification Pass
+
+------------------------------
+[INFO] Minimization attempt 8/10
+[PASS 23] Instruction Removal Pass
+
+------------------------------
+[PASS 24] Instruction Simplification Pass
+
+------------------------------
+[PASS 25] Constant Simplification Pass
+
+------------------------------
+[INFO] Minimization attempt 9/10
+[PASS 26] Instruction Removal Pass
+
+------------------------------
+[PASS 27] Instruction Simplification Pass
+
+------------------------------
+[PASS 28] Constant Simplification Pass
+
+------------------------------
+[INFO] Minimization attempt 10/10
+[PASS 29] Instruction Removal Pass
+
+------------------------------
+[PASS 30] Instruction Simplification Pass
+
+------------------------------
+[PASS 31] Constant Simplification Pass
+
+------------------------------
+[PASS 32] Fence Insertion Pass
+
+----------------...-----------
+[PASS 33] Violation Comment Insertion
+[PASS 34] Label Removal Pass
+
+.----------------------------------....-------------------------
+-------------------------------------.
+[PASS 35] Storing the results

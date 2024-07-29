@@ -1,0 +1,106 @@
+movsx R64 M16        2
+imul R32             2
+cmpxchg M8 R8        2
+not R64              2
+adc R64 R64          2
+lock add M16 R16     2
+cmp R64 R64          2
+add R16 I16          2
+or M32 I32           2
+cmovbe R32 R32       2
+sub R16 R16          2
+or R64 I32           2
+setnb M8             2
+inc R16              2
+setnp R8             2
+cmovo R32 M32        2
+mov R16 M16          2
+lock add M8 R8       2
+add R16 M16          2
+or R8 I8             2
+adc R16 R16          2
+cmp R8 I8            2
+cmp M8 I8            2
+and M8 I8            2
+imul R64 R64 I32     2
+or R32 M32           2
+div M8               2
+or R16 I16           2
+xadd R8 R8           2
+cmp R16 I16          2
+cmovnbe R64 R64      2
+sub R8 I8            2
+sub R16 I16          2
+lock adc M32 I32     2
+seto R8              2
+cdqe                 2
+and R8 R8            2
+add R32 I32          2
+mov M64 R64          2
+adc R8 R8            2
+imul R32 R32 I32     2
+add R8 I8            2
+add R8 R8            2
+lea R16 A64          2
+or R64 M64           2
+or R32 I32           2
+neg M32              2
+adc R32 M32          2
+btc R64 I8           2
+xchg R16 R16         2
+adc R32 R32          2
+test M8 R8           2
+cmovno R64 M64       2
+xor M32 R32          2
+btr M16 R16          2
+dec R64              2
+clc                  2
+mov R64 M64          2
+cmovz R16 R16        2
+movzx R64 M16        2
+macro L L            2
+mov R32 I32          2
+wrmsr                2
+mfence               2
+lfence               2
+and M32 I32          2
+lock sub M64 I32     2
+cmovs R64 M64        2
+sub R32 M32          2
+sub R8 R8            2
+adc M8 R8            2
+setns M8             2
+xadd R32 R32         2
+idiv M16             2
+cwde                 2
+lock add M8 I8       2
+neg R16              2
+cmp R32 I32          2
+dec M32              2
+mov M32 R32          2
+lock add M64 I32     2
+adc R8 M8            2
+bsr R32 R32          2
+cld                  2
+setnz M8             2
+and R16 I16          2
+cmovnle R16 M16      2
+and R8 I8            2
+cmovnp R16 M16       2
+xor M8 I8            2
+setnl M8             2
+cmovnl R32 R32       2
+sets M8              2
+lock sbb M64 I32     2
+and R64 I32          2
+sbb R8 M8            2
+or R8 M8             2
+cmovbe R64 R64       2
+cmp R32 M32          2
+setb R8              2
+sub R64 M64          2
+btc R16 R16          2
+lock btc M32 I8      2
+lock sbb M8 R8       2
+movzx R32 M8         2
+nop                  2
