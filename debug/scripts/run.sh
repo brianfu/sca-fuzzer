@@ -3,7 +3,7 @@
 
 RVZR_DIR=/home/brian/code/sca-fuzzer;
 EX_DIR=$RVZR_DIR/src/x86/executor;
-DBG_DIR=$RVZR_DIR/dbg;
+DBG_DIR=$RVZR_DIR/debug;
 CFG_DIR=$DBG_DIR/config;
 SCRIPT_DIR=$DBG_DIR/scripts;
 VIOL_DIR=$DBG_DIR/violations;
@@ -30,23 +30,21 @@ TEST_INPUTS=50; # Default: 50 (Less inputs, more test cases better)
 # python $RVZR_DIR/revizor.py tfuzz -s $RVZR_DIR/base.json -n $TEST_PROGS -i $TEST_INPUTS -c $CFG_DIR/template.yaml -w $VIOL_DIR -t $CFG_DIR/template.asm &> $SCRIPT_DIR/output.out;
 
 echo "Noninterference Template Run";
-python $RVZR_DIR/revizor.py tfuzz -s $RVZR_DIR/base.json -n $TEST_PROGS -i $TEST_INPUTS -c $CFG_DIR/template_nonif.yaml -w $VIOL_DIR -t $CFG_DIR/template_VA.asm --nonstop &> $SCRIPT_DIR/output.out & 
+python $RVZR_DIR/revizor.py tfuzz -s $RVZR_DIR/base.json -n $TEST_PROGS -i $TEST_INPUTS -c $CFG_DIR/template_nonif.yaml -w $VIOL_DIR -t $CFG_DIR/template_VA.asm --nonstop &> $SCRIPT_DIR/output.out &
 # template_VA.asm
 # template_onlyV.asm
 # template_AV.asm
 
 #####
 CURR_VIOL_DIR=$DBG_DIR/stored_vios/240722/violation-240720-203237;
-# echo "Add -af to test w/ archfuzz!";
+# violation-240720-203237 only working on 1.3-dev-prefetcher!!!
 
 # for i in {1..5}; do
 #  echo -e -n  "\nReproduce $i for $CURR_VIOL_DIR";
 #  python $RVZR_DIR/revizor.py reproduce -s $RVZR_DIR/base.json \
-#  -i $CURR_VIOL_DIR/min_input_sequence_new/min_input_0001.bin $CURR_VIOL_DIR/min_input_sequence_new/min_input_0004.bin \
-#  -c $CURR_VIOL_DIR/reproduce.yaml -t $CURR_VIOL_DIR/program_minimized_cmt.asm;
+#  -i $CURR_VIOL_DIR/input_*.bin \
+#  -c $CURR_VIOL_DIR/reproduce.yaml -t $CURR_VIOL_DIR/program.asm;
 # done
-# $CURR_VIOL_DIR/min_input_sequence_new/min_input_*.bin
-# $CURR_VIOL_DIR/min_input_sequence_new/min_input_0001.bin $CURR_VIOL_DIR/min_input_sequence_new/min_input_0004.bin
 
 # echo "Reproduce $CURR_VIOL_DIR";
 # python $RVZR_DIR/revizor.py reproduce -s $RVZR_DIR/base.json \
