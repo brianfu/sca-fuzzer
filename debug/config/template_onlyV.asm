@@ -6,7 +6,7 @@
 .section .data.main
 .function_main_0:
     # Start measurement in attacker
-    .macro.switch.actor2.function_actor2_start: 
+    .macro.switch.actor2.function_actor2_0: 
 
 # Fuzzing phase
 .function_main_1:

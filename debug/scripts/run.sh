@@ -30,7 +30,7 @@ TEST_INPUTS=50; # Default: 50 (Less inputs, more test cases better)
 # python $RVZR_DIR/revizor.py tfuzz -s $RVZR_DIR/base.json -n $TEST_PROGS -i $TEST_INPUTS -c $CFG_DIR/template.yaml -w $VIOL_DIR -t $CFG_DIR/template.asm &> $SCRIPT_DIR/output.out;
 
 echo "Noninterference Template Run";
-python $RVZR_DIR/revizor.py tfuzz -s $RVZR_DIR/base.json -n $TEST_PROGS -i $TEST_INPUTS -c $CFG_DIR/template_nonif.yaml -w $VIOL_DIR -t $CFG_DIR/template_VA.asm --nonstop \
+python $RVZR_DIR/revizor.py tfuzz -s $RVZR_DIR/base.json -n $TEST_PROGS -i $TEST_INPUTS -c $CFG_DIR/template_nonif.yaml -w $VIOL_DIR -t $CFG_DIR/template_onlyV.asm --nonstop \
 &> $SCRIPT_DIR/output.out &
 # template_VA.asm
 # template_onlyV.asm
