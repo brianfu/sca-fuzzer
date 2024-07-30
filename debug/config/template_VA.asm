@@ -11,8 +11,8 @@
 
 # Victim phase (Addresses still visible under CT_SEQ, Victim data hidden)
 .function_main_1:
-    # 64 random instructions, 32 mem. accesses
-    .macro.random_instructions.64.32: 
+    # X random instructions, Y mem. accesses
+    .macro.random_instructions.48.24: 
 
     # Handoff; See if actor 2 can see anything from actor 1!
     .macro.switch.actor2.function_actor2_1:
@@ -49,7 +49,7 @@
 # Attacker phase
 .function_actor2_1:
 
-    .macro.random_instructions.80.40: 
+    .macro.random_instructions.40.20: 
 
     # Disable PFs; edx:eax; store edx:eax, id ecx
     mov ecx, 0x1a4  # noremove
