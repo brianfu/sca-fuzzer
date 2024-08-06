@@ -41,6 +41,8 @@
 // Printing
 #define PRINT_ERR(msg, ...)       printk(KERN_ERR "[x86_executor] " msg, ##__VA_ARGS__);
 #define PRINT_ERRS(src, msg, ...) printk(KERN_ERR "[x86_executor:" src "] " msg, ##__VA_ARGS__);
+#define PRINT_WARN(msg, ...)       printk(KERN_WARNING "[x86_executor] WARNING: " msg, ##__VA_ARGS__);
+#define PRINT_WARNS(src, msg, ...) printk(KERN_WARNING "[x86_executor:" src "] WARNING: " msg, ##__VA_ARGS__);
 
 // Error handling
 #define ASSERT(condition, src)                                                                     \

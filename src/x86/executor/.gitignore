@@ -8,3 +8,4 @@
 *.mod.c
 start_qemu.sh
 update_module.sh
+coverage.txt

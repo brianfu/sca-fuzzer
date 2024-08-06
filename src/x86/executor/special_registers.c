@@ -77,7 +77,7 @@ static int set_msrs_for_svm(void)
 
 static int get_ssbp_patch_msr_ctrls(uint64_t *msr_id, uint64_t *msr_mask)
 {
-    if (cpu_has(cpuinfo, X86_FEATURE_MSR_SPEC_CTRL)) {
+    if (cpu_has(cpuinfo, X86_FEATURE_MSR_SPEC_CTRL) && cpu_has(cpuinfo, X86_FEATURE_SPEC_CTRL_SSBD)) {
         *msr_id = MSR_IA32_SPEC_CTRL;
         *msr_mask = SPEC_CTRL_SSBD;
     } else if (cpu_has(cpuinfo, X86_FEATURE_VIRT_SSBD)) {
@@ -106,15 +106,50 @@ static int get_ssbp_patch_msr_ctrls(uint64_t *msr_id, uint64_t *msr_mask)
     return 0;
 }
 
+static int check_ddpd_u_bit(void)
+{
+    // Structured Extended Feature Enumeration Sub-leaf (Initial EAX Value = 07H, ECX = 2)
+    uint32_t eax, ebx, ecx, edx;
+    cpuid_count(7, 2, &eax, &ebx, &ecx, &edx);
+
+    if (edx & (0b1000)) { 
+        // Bit 03: DDPD_U. If 1, indicates bit 8 of the IA32_SPEC_CTRL MSR is supported. 
+        //          Bit 8 of this MSR disables Data Dependent Prefetcher.
+        return 1; // True
+    }
+    return 0; // False
+}
+
+static int get_disable_ddp_prefetcher_msr_ctrls(uint64_t *msr_id, uint64_t *msr_mask)
+{
+    if (cpu_has(cpuinfo, X86_FEATURE_MSR_SPEC_CTRL) && check_ddpd_u_bit()) {
+        *msr_id = MSR_IA32_SPEC_CTRL;
+        *msr_mask = SPEC_CTRL_DDPD_U;
+    } else {
+        // Can leave system as-is if no patch avaliable
+        PRINT_WARNS("get_disable_ddp_prefetcher_msr_ctrls", "Unable to control DDP prefetcher on this CPU; no known method\n");
+        PRINT_WARN("13th gen Raptor Lake or above required for DDP prefetcher\n");
+    }
+    return 0;
+}
+
 static int get_prefetcher_msr_ctrls(uint64_t *msr_id, uint64_t *msr_mask)
 {
     if (cpuinfo->x86_vendor == X86_VENDOR_INTEL) {
         *msr_id = MSR_MISC_FEATURE_CONTROL;
         switch (cpuinfo->x86_model) {
-        case 0x97:
-        case 0x9a:
-        case 0xba:
-        case 0xb7:
+        case 0x97: // Alder Lake S
+            *msr_mask = 0b101111; // L2 AMP Prefetcher
+            break;
+        case 0x9a: // Alder Lake P
+            *msr_mask = 0b101111;
+            break;
+        case 0xba: // Raptor Lake P
+            *msr_mask = 0b101111;
+            break;
+        case 0xb7: // Raptor Lake S
+            *msr_mask = 0b101111;
+            break;
         case 0xbf:
             *msr_mask = 0b101111;
             break;
@@ -181,6 +216,13 @@ int set_special_registers(void)
     CHECK_ERR("set_enable_ssbp_patch");
     err = apply_msr_mask(msr_id, msr_mask, enable_ssbp_patch);
     CHECK_ERR("set_enable_ssbp_patch");
+
+    // Data Dependent Prefetcher (DDP) disable
+    err = get_disable_ddp_prefetcher_msr_ctrls(&msr_id, &msr_mask);
+    orig_special_registers_state->spec_ctrl = rdmsr64(msr_id);
+    CHECK_ERR("set_disable_ddp_prefetcher");
+    err = apply_msr_mask(msr_id, msr_mask, disable_ddp_prefetcher);
+    CHECK_ERR("set_disable_ddp_prefetcher");
 
     // Prefetcher control
 #ifndef VMBUILD
@@ -263,6 +305,11 @@ void restore_special_registers(void)
 
     if (orig_special_registers_state->spec_ctrl != 0) {
         get_ssbp_patch_msr_ctrls(&msr_id, &msr_mask);
+        wrmsr64(msr_id, orig_special_registers_state->spec_ctrl);
+    }
+
+    if (orig_special_registers_state->spec_ctrl != 0) {
+        get_disable_ddp_prefetcher_msr_ctrls(&msr_id, &msr_mask);
         wrmsr64(msr_id, orig_special_registers_state->spec_ctrl);
     }
 

@@ -29,5 +29,8 @@ void restore_special_registers(void);
 int init_special_register_manager(void);
 void free_special_register_manager(void);
 
+// Ideally this would just be in the kernel headers already for MSR_IA32_SPEC_CTRL
+#define SPEC_CTRL_DDPD_U_SHIFT		8	   /* Data Dependent Prefetcher Disable bit */
+#define SPEC_CTRL_DDPD_U 			BIT(SPEC_CTRL_DDPD_U_SHIFT) /* Data Dependent Prefetcher Disable */
 
 #endif // _MSR_H_
