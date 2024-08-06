@@ -4,24 +4,17 @@ contract_observation_clause: ct
 contract_execution_clause:
   - seq
 
-# Actor configuration: A host and a user process
-# Isolate actors when possible
-actors:
-  - main:
-    - mode: "host"
-    - privilege_level: "kernel"
-  - actor2:
-    - mode: "host"
-    - privilege_level: "kernel"
+# No actors
 
 # Detect violations via Chi2-test with a threshold of 0.05
 # At the cost of false negatives; Closer to 1, less tolerance to noise
 analyser: chi2
-analyser_stat_threshold: 0.2
+analyser_stat_threshold: 0.2 # Default: 0.2
 
 # Executor
-executor_mode: PP+P
-x86_executor_enable_ssbp_patch: true
+executor_mode: P+P
+x86_executor_enable_ssbp_patch: false
+x86_executor_disable_ddp_prefetcher: false
 x86_executor_enable_prefetcher: true
 
 # Misc. configuration
@@ -30,12 +23,16 @@ executor_sample_sizes: # Run every test N times and compare distributions, each 
   - 15 # Used for early priming
   - 40
   - 160
-  - 320
+  - 320 # Could be not large enough to deal with uarch noise
 
 # Fuzzer
-enable_observation_filter: true
+# fuzzer: architectural
+enable_speculation_filter: false # PFs vios do not necessarily require execution of transient insts.
+enable_observation_filter: false # PFs vios do not necessarily cause speculative cache evictions
 enable_fast_path_model: true
 coverage_type: model_instructions
+
+executor_taskset: 1 # Use isolated core
 
 instruction_categories:
   - BASE-BINARY
@@ -58,17 +55,19 @@ instruction_categories:
   - LONGMODE-SEMAPHORE
 
 # Output
-color: true
+# color: true
 logging_modes:
   - info
   - stat
   - dbg_coverage
   - dbg_violation
   - dbg_timestamp
-  - dbg_generator
+  # - dbg_generator
   # - dbg_priming
   # - dbg_model
   # - dbg_executor_raw
   # - dbg_dump_htraces
   # - dbg_dump_ctraces
   # - dbg_dump_traces_unlimited
+
+# program_generator_seed: 12345

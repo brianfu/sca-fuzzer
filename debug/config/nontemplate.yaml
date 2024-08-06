@@ -7,17 +7,6 @@ contract_execution_clause:
   - seq  # uncomment for non-interference contract
   # - noninterference
 
-# Actor configuration: A host and a user process
-# Observer actor is the attacker for noninterference
-actors:
-  - main:
-    - mode: "host"
-    - privilege_level: "kernel"
-    # - observer: true  # uncomment for non-interference contract
-  - actor2:
-    - mode: "host"
-    - privilege_level: "kernel"
-
 # Detect violations via Chi2-test with a threshold of 0.05
 # At the cost of false negatives; Closer to 1, less tolerance to noise
 analyser: chi2
@@ -62,7 +51,7 @@ instruction_categories:
   - LONGMODE-SEMAPHORE
 
 # Output
-color: true
+# color: true
 logging_modes:
   - info
   - stat

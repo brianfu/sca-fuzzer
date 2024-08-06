@@ -11,8 +11,8 @@
 
 # Prefetching phase
 .function_main_1:
-    # 64 random instructions, 32 mem. accesses
-    .macro.random_instructions.64.32: 
+    # X random instructions, Y mem. accesses
+    .macro.random_instructions.48.24:
 
     # Handoff back to end measurement in attacker
     .macro.switch.actor2.function_actor2_1:
@@ -44,8 +44,7 @@
     lfence          # noremove
 
     # Attacker trains PFs
-    # 64 random instructions, 32 mem. accesses
-    .macro.random_instructions.64.32:
+    .macro.random_instructions.40.20:
     
     # Handoff to victim, see if it can learn from training (would break noninterference)
     .macro.switch.main.function_main_1:

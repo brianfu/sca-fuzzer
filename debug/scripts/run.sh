@@ -16,6 +16,9 @@ if [ "$1" == "build" ]; then
 elif [ "$1" == "unittest" ]; then
   echo "Run unit tests"; # Run separately from executor install to avoid noise
   $RVZR_DIR/tests/runtests.sh &> $SCRIPT_DIR/tests.out;
+elif [ "$1" == "executortest" ]; then
+  echo "Run executor tests"; # Run separately from executor install to avoid noise
+  $RVZR_DIR/tests/x86_tests/kernel_module.bats &> $SCRIPT_DIR/executor_tests.out;
 fi
 
 ## Run fuzzer ##
@@ -24,27 +27,25 @@ TEST_PROGS=100000; # Default: 1000000
 TEST_INPUTS=50; # Default: 50 (Less inputs, more test cases better)
 
 # echo "Non-Template Run";
-# python $RVZR_DIR/revizor.py fuzz -s $RVZR_DIR/base.json -n $TEST_PROGS -i $TEST_INPUTS  -c $CFG_DIR/nontemplate.yaml -w $VIOL_DIR &> $SCRIPT_DIR/output.out;
+# python $RVZR_DIR/revizor.py fuzz -s $RVZR_DIR/base.json -n $TEST_PROGS -i $TEST_INPUTS -c $CFG_DIR/nontemplate.yaml -w $VIOL_DIR &> $SCRIPT_DIR/output.out;
 
-# echo "Template Run";
-# python $RVZR_DIR/revizor.py tfuzz -s $RVZR_DIR/base.json -n $TEST_PROGS -i $TEST_INPUTS -c $CFG_DIR/template.yaml -w $VIOL_DIR -t $CFG_DIR/template.asm &> $SCRIPT_DIR/output.out;
+echo "Template Run";
+python $RVZR_DIR/revizor.py tfuzz -s $RVZR_DIR/base.json -n $TEST_PROGS -i $TEST_INPUTS -c $CFG_DIR/template.yaml -w $VIOL_DIR -t $CFG_DIR/template_noactors.asm &> $SCRIPT_DIR/output.out;
 
-echo "Noninterference Template Run";
-python $RVZR_DIR/revizor.py tfuzz -s $RVZR_DIR/base.json -n $TEST_PROGS -i $TEST_INPUTS -c $CFG_DIR/template_nonif.yaml -w $VIOL_DIR -t $CFG_DIR/template_AV.asm --nonstop \
-&> $SCRIPT_DIR/output.out &
-# template_VA.asm
-# template_onlyV.asm
-# template_AV.asm
+# echo "Noninterference Template Run";
+# python $RVZR_DIR/revizor.py tfuzz -s $RVZR_DIR/base.json -n $TEST_PROGS -i $TEST_INPUTS -c $CFG_DIR/template_nonif.yaml -w $VIOL_DIR -t $CFG_DIR/template_AV.asm --nonstop &> $SCRIPT_DIR/output.out;
 
 #####
-CURR_VIOL_DIR=$DBG_DIR/stored_vios/240722/violation-240720-203237;
-# violation-240720-203237 only working on 1.3-dev-prefetcher!!!
+CURR_VIOL_DIR=$DBG_DIR/stored_vios/240720;
+# 240722/violation-240720-203237 only working on 1.3-dev-prefetcher!!!
+# 240716-223632
+# 240717-092341
 
-# for i in {1..5}; do
+# for i in {1..1}; do
 #  echo -e -n  "\nReproduce $i for $CURR_VIOL_DIR";
 #  python $RVZR_DIR/revizor.py reproduce -s $RVZR_DIR/base.json \
-#  -i $CURR_VIOL_DIR/input_*.bin \
-#  -c $CURR_VIOL_DIR/reproduce.yaml -t $CURR_VIOL_DIR/program.asm;
+#  -i $CURR_VIOL_DIR/min_input_sequence/min_input_0001.bin $CURR_VIOL_DIR/min_input_sequence_new/min_input_0004.bin \
+#  -c $CURR_VIOL_DIR/reproduce.yaml -t $CURR_VIOL_DIR/program_minimized_cmt.asm;
 # done
 
 # echo "Reproduce $CURR_VIOL_DIR";
@@ -79,6 +80,8 @@ CURR_VIOL_DIR=$DBG_DIR/stored_vios/240722/violation-240720-203237;
 
 #  cat /sys/x86_executor/test_case_bin > exe_dump.o
 #  objdump -D -M intel -b binary -m i386:x86-64 exe_dump.o > exe_dump.dump
+
+#  objdump -D -M intel $RVZR_DIR/src/x86/executor/x86_executor.ko > x86_executor_dump.dump
 
 # ./run.sh | less -R
 # watch -n 1 --color ./run.sh

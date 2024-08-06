@@ -3,7 +3,7 @@
 
 RVZR_DIR=/home/brian/code/sca-fuzzer;
 EX_DIR=$RVZR_DIR/src/x86/executor;
-DBG_DIR=$RVZR_DIR/dbg;
+DBG_DIR=$RVZR_DIR/debug;
 CFG_DIR=$DBG_DIR/config;
 SCRIPT_DIR=$DBG_DIR/scripts;
 VIOL_DIR=$DBG_DIR/violations;
@@ -16,24 +16,15 @@ if [ "$1" == "build" ]; then
 fi
 
 #####
-MULTI_VIOS_DIR=$DBG_DIR/stored_vios/240722;
+MULTI_VIOS_DIR=$DBG_DIR/stored_vios/post-1.3;
 
 echo "Reproduce original violations for all in $MULTI_VIOS_DIR";
-echo "None should violate under ArchFuzz!";
 rm -rf $MULTI_VIOS_DIR/outputs/reproduce_out; # Clear it first
 mkdir -p $MULTI_VIOS_DIR/outputs/reproduce_out;
-rm -rf $MULTI_VIOS_DIR/outputs/reproduce_af_out;
-mkdir -p $MULTI_VIOS_DIR/outputs/reproduce_af_out;
 for subdir in "$MULTI_VIOS_DIR"/*/; do
   # Check if it's a directory
   if [ -d "$subdir" ] && [ -f "$subdir/program.asm" ]; then
     violation=$(basename $subdir);
-
-    echo "Reproduce $violation w/ ArchFuzz";
-    python $RVZR_DIR/revizor.py reproduce --archfuzz -s $RVZR_DIR/base.json \
-      -i $subdir/input_*.bin \
-      -c $subdir/reproduce.yaml -t $subdir/program.asm \
-      &> $MULTI_VIOS_DIR/outputs/reproduce_af_out/reproduce_af_$violation.out;
 
     echo "Reproduce original $violation";
     python $RVZR_DIR/revizor.py reproduce -s $RVZR_DIR/base.json \
@@ -45,62 +36,62 @@ done
 
 #####
 
-echo "Minimized reproduce check for all in $MULTI_VIOS_DIR";
-rm -rf $MULTI_VIOS_DIR/outputs/reproduce_out; # Clear it first
-mkdir -p $MULTI_VIOS_DIR/outputs/reproduce_out;
-rm -rf $MULTI_VIOS_DIR/outputs/reproduce_min_asm_out;
-mkdir -p $MULTI_VIOS_DIR/outputs/reproduce_min_asm_out;
-rm -rf $MULTI_VIOS_DIR/outputs/reproduce_min_inputdiff_out;
-mkdir -p $MULTI_VIOS_DIR/outputs/reproduce_min_inputdiff_out;
-rm -rf $MULTI_VIOS_DIR/outputs/reproduce_min_inputseq_out;
-mkdir -p $MULTI_VIOS_DIR/outputs/reproduce_min_inputseq_out;
-rm -rf $MULTI_VIOS_DIR/outputs/reproduce_min_inputall_out;
-mkdir -p $MULTI_VIOS_DIR/outputs/reproduce_min_inputall_out;
-for subdir in "$MULTI_VIOS_DIR"/*/; do
-  # Ensure it's a directory
-  if [ -d "$subdir" ] && [ -f "$subdir/program.asm" ]; then
-    violation=$(basename $subdir);
+# echo "Minimized reproduce check for all in $MULTI_VIOS_DIR";
+# rm -rf $MULTI_VIOS_DIR/outputs/reproduce_out; # Clear it first
+# mkdir -p $MULTI_VIOS_DIR/outputs/reproduce_out;
+# rm -rf $MULTI_VIOS_DIR/outputs/reproduce_min_asm_out;
+# mkdir -p $MULTI_VIOS_DIR/outputs/reproduce_min_asm_out;
+# rm -rf $MULTI_VIOS_DIR/outputs/reproduce_min_inputdiff_out;
+# mkdir -p $MULTI_VIOS_DIR/outputs/reproduce_min_inputdiff_out;
+# rm -rf $MULTI_VIOS_DIR/outputs/reproduce_min_inputseq_out;
+# mkdir -p $MULTI_VIOS_DIR/outputs/reproduce_min_inputseq_out;
+# rm -rf $MULTI_VIOS_DIR/outputs/reproduce_min_inputall_out;
+# mkdir -p $MULTI_VIOS_DIR/outputs/reproduce_min_inputall_out;
+# for subdir in "$MULTI_VIOS_DIR"/*/; do
+#   # Ensure it's a directory
+#   if [ -d "$subdir" ] && [ -f "$subdir/program.asm" ]; then
+#     violation=$(basename $subdir);
 
-    echo "Reproduce original $violation with original inputs";
-    python $RVZR_DIR/revizor.py reproduce -s $RVZR_DIR/base.json \
-      -i $subdir/input_*.bin \
-      -c $subdir/reproduce.yaml -t $subdir/program.asm \
-      &> $MULTI_VIOS_DIR/outputs/reproduce_out/reproduce_$violation.out;
+#     echo "Reproduce original $violation with original inputs";
+#     python $RVZR_DIR/revizor.py reproduce -s $RVZR_DIR/base.json \
+#       -i $subdir/input_*.bin \
+#       -c $subdir/reproduce.yaml -t $subdir/program.asm \
+#       &> $MULTI_VIOS_DIR/outputs/reproduce_out/reproduce_$violation.out;
 
-    if [ -f "$subdir/program_minimized.asm" ]; then
-      echo "Reproduce minimized $violation with original inputs";
-      python $RVZR_DIR/revizor.py reproduce -s $RVZR_DIR/base.json \
-        -i $subdir/input_*.bin \
-        -c $subdir/reproduce.yaml -t $subdir/program_minimized.asm \
-        &> $MULTI_VIOS_DIR/outputs/reproduce_min_asm_out/reproduce_min_asm_$violation.out;
-    fi
+#     if [ -f "$subdir/program_minimized.asm" ]; then
+#       echo "Reproduce minimized $violation with original inputs";
+#       python $RVZR_DIR/revizor.py reproduce -s $RVZR_DIR/base.json \
+#         -i $subdir/input_*.bin \
+#         -c $subdir/reproduce.yaml -t $subdir/program_minimized.asm \
+#         &> $MULTI_VIOS_DIR/outputs/reproduce_min_asm_out/reproduce_min_asm_$violation.out;
+#     fi
 
-    # Input minimization passes are originally created with minimized program
-    if [ -d "$subdir/min_inputs" ]; then
-      echo "Reproduce minimized $violation with minimized input diffs";
-      python $RVZR_DIR/revizor.py reproduce -s $RVZR_DIR/base.json \
-        -i $subdir/min_inputs/min_input_*.bin \
-        -c $subdir/reproduce.yaml -t $subdir/program_minimized.asm \
-        &> $MULTI_VIOS_DIR/outputs/reproduce_min_inputdiff_out/reproduce_min_inputdiff_$violation.out;
-    fi
+#     # Input minimization passes are originally created with minimized program
+#     if [ -d "$subdir/min_inputs" ]; then
+#       echo "Reproduce minimized $violation with minimized input diffs";
+#       python $RVZR_DIR/revizor.py reproduce -s $RVZR_DIR/base.json \
+#         -i $subdir/min_inputs/min_input_*.bin \
+#         -c $subdir/reproduce.yaml -t $subdir/program_minimized.asm \
+#         &> $MULTI_VIOS_DIR/outputs/reproduce_min_inputdiff_out/reproduce_min_inputdiff_$violation.out;
+#     fi
 
-    if [ -d "$subdir/min_input_sequence" ]; then
-    echo "Reproduce minimized $violation with minimized input sequence";
-    python $RVZR_DIR/revizor.py reproduce -s $RVZR_DIR/base.json \
-      -i $subdir/min_input_sequence/min_input_*.bin \
-      -c $subdir/reproduce.yaml -t $subdir/program_minimized.asm \
-      &> $MULTI_VIOS_DIR/outputs/reproduce_min_inputseq_out/reproduce_min_inputseq_$violation.out;
-    fi
+#     if [ -d "$subdir/min_input_sequence" ]; then
+#     echo "Reproduce minimized $violation with minimized input sequence";
+#     python $RVZR_DIR/revizor.py reproduce -s $RVZR_DIR/base.json \
+#       -i $subdir/min_input_sequence/min_input_*.bin \
+#       -c $subdir/reproduce.yaml -t $subdir/program_minimized.asm \
+#       &> $MULTI_VIOS_DIR/outputs/reproduce_min_inputseq_out/reproduce_min_inputseq_$violation.out;
+#     fi
 
-    if [ -d "$subdir/full_min_inputs" ]; then
-    echo "Reproduce minimized $violation with minimized input diff AND minimized input sequence";
-    python $RVZR_DIR/revizor.py reproduce -s $RVZR_DIR/base.json \
-      -i $subdir/full_min_inputs/min_input_*.bin \
-      -c $subdir/reproduce.yaml -t $subdir/program_minimized.asm \
-      &> $MULTI_VIOS_DIR/outputs/reproduce_min_inputall_out/reproduce_min_inputall_$violation.out;
-    fi
-  fi
-done
+#     if [ -d "$subdir/full_min_inputs" ]; then
+#     echo "Reproduce minimized $violation with minimized input diff AND minimized input sequence";
+#     python $RVZR_DIR/revizor.py reproduce -s $RVZR_DIR/base.json \
+#       -i $subdir/full_min_inputs/min_input_*.bin \
+#       -c $subdir/reproduce.yaml -t $subdir/program_minimized.asm \
+#       &> $MULTI_VIOS_DIR/outputs/reproduce_min_inputall_out/reproduce_min_inputall_$violation.out;
+#     fi
+#   fi
+# done
 
 #####
 

@@ -1,0 +1,17 @@
+executor_mode: P+P
+ 
+color: true
+logging_modes:
+  - info
+  # - stat
+  # - dbg_generator
+  # - dbg_timestamp
+  # - dbg_violation
+  # - dbg_dump_htraces
+  # - dbg_dump_ctraces
+  # - dbg_dump_traces_unlimited
+  # - dbg_model  # uncomment to debug execution on the model
+  # - dbg_coverage
+  # - dbg_isa_loader
+  # - dbg_priming
+  - dbg_executor_raw

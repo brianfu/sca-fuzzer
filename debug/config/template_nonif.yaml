@@ -22,8 +22,9 @@ analyser_stat_threshold: 0.2 # Default: 0.2
 
 # Executor
 executor_mode: F+R
-x86_executor_enable_ssbp_patch: true
-x86_executor_enable_prefetcher: true # Test: Only true within measurement area!
+x86_executor_enable_ssbp_patch: false
+x86_executor_disable_ddp_prefetcher: false
+x86_executor_enable_prefetcher: true
 
 # Misc. configuration
 inputs_per_class: 2
