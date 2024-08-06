@@ -1,0 +1,27 @@
+
+INFO: [fuzzer] Starting at 19:46:19
+cat: /sys/x86_executor/trace: Input/output error
+Traceback (most recent call last):
+  File "/home/brian/code/sca-fuzzer/revizor.py", line 21, in <module>
+    exit_code = main()
+  File "/home/brian/code/sca-fuzzer/src/cli.py", line 403, in main
+    exit_code = fuzzer.start_from_asm(1, args.num_inputs, 0, False, False)
+  File "/home/brian/code/sca-fuzzer/src/fuzzer.py", line 119, in start_from_asm
+    return self._start(num_test_cases, num_inputs, timeout, nonstop, save_violations)
+  File "/home/brian/code/sca-fuzzer/src/x86/x86_fuzzer.py", line 117, in _start
+    return super()._start(num_test_cases, num_inputs, timeout, nonstop, save_violations)
+  File "/home/brian/code/sca-fuzzer/src/fuzzer.py", line 154, in _start
+    violation = self.fuzzing_round(test_case, inputs)
+  File "/home/brian/code/sca-fuzzer/src/fuzzer.py", line 219, in fuzzing_round
+    violations, args.ctraces, htraces = self._collect_traces(args)
+  File "/home/brian/code/sca-fuzzer/src/fuzzer.py", line 347, in _collect_traces
+    htraces = self.executor.trace_test_case(args.inputs, args.n_reps)
+  File "/home/brian/code/sca-fuzzer/src/x86/x86_executor.py", line 409, in trace_test_case
+    for rid, iid, htrace, pfc_list in read_trace(n_reps, n_inputs, enable_warnings):
+  File "/home/brian/code/sca-fuzzer/src/x86/x86_executor.py", line 142, in read_trace
+    output = subprocess.check_output(
+  File "/usr/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/usr/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command 'taskset -c 1 cat /sys/x86_executor/trace' returned non-zero exit status 1.

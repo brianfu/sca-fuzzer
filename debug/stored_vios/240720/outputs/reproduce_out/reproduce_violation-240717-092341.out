@@ -1,0 +1,16 @@
+
+INFO: [fuzzer] Starting at 14:07:35
+> Entering slow path...> Priming  5             > Priming  4             > Priming  3             > Priming  2             
+
+================================ Violations detected ==========================
+Contract trace:
+ 6319240743125413296 (hash)
+Hardware traces:
+  Input group 1: [19]
+  Input group 2: [69]
+  ^^^..^^........^............^.....^..........^.................^ [319    | 147   ]
+  ^^^...^........^............^.....^..........^.................^ [1      | 173   ]
+
+
+Duration: 140.7
+Finished at 14:09:55
