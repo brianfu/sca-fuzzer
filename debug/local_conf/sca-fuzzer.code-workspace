@@ -1,15 +1,15 @@
 {
 	"folders": [
 		{
-			"path": "/home/brian/code/sca-fuzzer"
+			"path": "/home/t-fubo/code/sca-fuzzer"
 		}
 	],
 	"settings":
 		{
 			"C_Cpp.default.includePath": [
-					"/usr/src/linux-headers-5.15.0-113-generic/include",
-					"/usr/src/linux-headers-5.15.0-113-generic/arch/x86/include",
-					"/usr/src/linux-headers-5.15.0-113-generic/arch/x86/include/generated",
+					"/usr/src/linux-headers-5.15.0-117-generic/include",
+					"/usr/src/linux-headers-5.15.0-117-generic/arch/x86/include",
+					"/usr/src/linux-headers-5.15.0-117-generic/arch/x86/include/generated",
 					"${workspaceFolder}/src/x86/executor/",
 					"${workspaceFolder}/src/x86/executor/include"
 			],
@@ -36,6 +36,7 @@
 				"--ignore",
 				"E402,W503"
 			],
-			"editor.defaultFormatter": "eeyore.yapf"
+			"editor.defaultFormatter": "eeyore.yapf",
+			"scm.showHistoryGraph": false
 		}
 }

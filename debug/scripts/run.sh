@@ -1,7 +1,7 @@
 # Num of test cases more important than num on inputs (from past)
 # Do not parallelize, creates noise!
 
-RVZR_DIR=/home/brian/code/sca-fuzzer;
+RVZR_DIR=/home/t-fubo/code/sca-fuzzer;
 EX_DIR=$RVZR_DIR/src/x86/executor;
 DBG_DIR=$RVZR_DIR/debug;
 CFG_DIR=$DBG_DIR/config;
