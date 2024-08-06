@@ -1,0 +1,41 @@
+{
+	"folders": [
+		{
+			"path": "/home/brian/code/sca-fuzzer"
+		}
+	],
+	"settings":
+		{
+			"C_Cpp.default.includePath": [
+					"/usr/src/linux-headers-5.15.0-113-generic/include",
+					"/usr/src/linux-headers-5.15.0-113-generic/arch/x86/include",
+					"/usr/src/linux-headers-5.15.0-113-generic/arch/x86/include/generated",
+					"${workspaceFolder}/src/x86/executor/",
+					"${workspaceFolder}/src/x86/executor/include"
+			],
+			"files.associations": {
+				"*.txt": "plaintext",
+				"*.sh": "shellscript",
+				"*.asm": "asm-intel-x86-generic",
+				"*.bpred": "cpp",
+				"*.llc_pref": "cpp",
+				"*.l2c_pref": "cpp",
+				"*.l1d_pref": "cpp",
+				"*.sm": "gem5-slicc",
+				"*.isa": "cpp",
+				"perf_counters.h": "c",
+				"host_page_tables.h": "c",
+				"types.h": "c"
+			},
+			"yapf.args": [
+				"--style={based_on_style: yapf, column_limit: 100, indent_width: 4, DISABLE_ENDING_COMMA_HEURISTIC: 0,SPLIT_BEFORE_ARITHMETIC_OPERATOR: True,SPLIT_BEFORE_LOGICAL_OPERATOR: True}"
+			],
+			"flake8.args": [
+				"--max-line-length",
+				"100",
+				"--ignore",
+				"E402,W503"
+			],
+			"editor.defaultFormatter": "eeyore.yapf"
+		}
+}

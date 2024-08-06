@@ -7,7 +7,6 @@ venv/
 **/__pycache__/
 base.json
 src/x86/*.json
-*.code-workspace
 *.o
 src/generated.asm
 generated.asm
