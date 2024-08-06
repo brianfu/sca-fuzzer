@@ -16,9 +16,11 @@ if [ "$1" == "build" ]; then
 elif [ "$1" == "unittest" ]; then
   echo "Run unit tests"; # Run separately from executor install to avoid noise
   $RVZR_DIR/tests/runtests.sh &> $SCRIPT_DIR/tests.out;
+  exit;
 elif [ "$1" == "executortest" ]; then
   echo "Run executor tests"; # Run separately from executor install to avoid noise
   $RVZR_DIR/tests/x86_tests/kernel_module.bats &> $SCRIPT_DIR/executor_tests.out;
+  exit;
 fi
 
 ## Run fuzzer ##
