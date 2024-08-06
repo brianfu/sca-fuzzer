@@ -19,3 +19,4 @@ site
 dist/
 generated
 generated.asm
+coverage.txt
