@@ -14,7 +14,7 @@ analyser_stat_threshold: 0.2 # Default: 0.2
 # Executor
 executor_mode: P+P
 x86_executor_enable_ssbp_patch: false
-x86_executor_disable_ddp_prefetcher: false
+x86_executor_enable_ddp_prefetcher: true
 x86_executor_enable_prefetcher: true
 
 # Misc. configuration

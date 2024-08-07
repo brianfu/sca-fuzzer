@@ -18,11 +18,11 @@ elif [ "$1" == "unittest" ]; then
   $RVZR_DIR/tests/runtests.sh &> $SCRIPT_DIR/tests.out;
   exit;
 elif [ "$1" == "kerneltest" ]; then
-  echo "Run kenerl module tests";
+  echo "Run kernel module tests";
   $RVZR_DIR/tests/x86_tests/kernel_module.bats &> $SCRIPT_DIR/kernel_tests.out;
   exit;
 elif [ "$1" == "acceptancetest" ]; then
-  echo "Run executor tests"; # Run separately from executor install to avoid noise
+  echo "Run acceptance tests";
   $RVZR_DIR/tests/x86_tests/acceptance.bats &> $SCRIPT_DIR/acceptance_tests.out;
   exit;
 fi
@@ -35,8 +35,8 @@ TEST_INPUTS=50; # Default: 50 (Less inputs, more test cases better)
 # echo "Non-Template Run";
 # python $RVZR_DIR/revizor.py fuzz -s $RVZR_DIR/base.json -n $TEST_PROGS -i $TEST_INPUTS -c $CFG_DIR/nontemplate.yaml -w $VIOL_DIR &> $SCRIPT_DIR/output.out;
 
-# echo "Template Run";
-# python $RVZR_DIR/revizor.py tfuzz -s $RVZR_DIR/base.json -n $TEST_PROGS -i $TEST_INPUTS -c $CFG_DIR/template.yaml -w $VIOL_DIR -t $CFG_DIR/template_noactors.asm --nonstop &> $SCRIPT_DIR/output.out;
+echo "Template Run";
+python $RVZR_DIR/revizor.py tfuzz -s $RVZR_DIR/base.json -n $TEST_PROGS -i $TEST_INPUTS -c $CFG_DIR/template.yaml -w $VIOL_DIR -t $CFG_DIR/template_noactors.asm --nonstop &> $SCRIPT_DIR/output.out;
 
 # echo "Noninterference Template Run";
 # python $RVZR_DIR/revizor.py tfuzz -s $RVZR_DIR/base.json -n $TEST_PROGS -i $TEST_INPUTS -c $CFG_DIR/template_nonif.yaml -w $VIOL_DIR -t $CFG_DIR/template_AV.asm --nonstop &> $SCRIPT_DIR/output.out;
