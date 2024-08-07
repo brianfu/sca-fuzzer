@@ -30,8 +30,8 @@ extern long uarch_reset_rounds;
 #define UARCH_RESET_ROUNDS_DEFAULT 1
 extern bool enable_ssbp_patch;
 #define SSBP_PATCH_DEFAULT true
-extern bool disable_ddp_prefetcher;
-#define DISABLE_DDP_DEFAULT true
+extern bool enable_ddp_prefetcher;
+#define ENABLE_DDP_DEFAULT false
 extern bool enable_prefetchers;
 #define PREFETCHER_DEFAULT false
 extern char pre_run_flush;

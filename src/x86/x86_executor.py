@@ -78,16 +78,16 @@ def is_kernel_module_installed() -> bool:
 def configure_kernel_module() -> None:
     # Setting IA32_SPEC_CTRL bit 2 (SSBD) also disables the DDP
     if (getattr(CONF, 'x86_executor_enable_ssbp_patch')
-       and not getattr(CONF, 'x86_executor_disable_ddp_prefetcher')):
+       and getattr(CONF, 'x86_executor_enable_ddp_prefetcher')):
         LOG = Logger()
-        LOG.warning("executor", "Enabling DDP prefetcher requires \
+        LOG.error("Enabling DDP prefetcher requires \
             Speculative Store Bypass Protection to be disabled")
 
     km_write(CONF.executor_warmups, '/sys/x86_executor/warmups')
     km_write("1" if getattr(CONF, 'x86_executor_enable_ssbp_patch') else "0",
              "/sys/x86_executor/enable_ssbp_patch")
-    km_write("1" if getattr(CONF, 'x86_executor_disable_ddp_prefetcher') else "0",
-             "/sys/x86_executor/disable_ddp_prefetcher")
+    km_write("0" if getattr(CONF, 'x86_executor_enable_ddp_prefetcher') else "1",
+             "/sys/x86_executor/enable_ddp_prefetcher")
     km_write("1" if getattr(CONF, 'x86_executor_enable_prefetcher') else "0",
              "/sys/x86_executor/enable_prefetcher")
     km_write("1" if CONF.enable_pre_run_flush else "0", "/sys/x86_executor/enable_pre_run_flush")

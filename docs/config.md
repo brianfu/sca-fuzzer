@@ -576,11 +576,11 @@ Default: True
 Enable a microcode patch against Speculative Store Bypass, if available.
 
 ```yaml
-Name: x86_executor_disable_ddp_prefetcher
-Default: True
+Name: x86_executor_enable_ddp_prefetcher
+Default: False
 ```
 
-Enable a microcode patch to disable the Data-Dependent Prefetcher, if available.
+Enable the Data-Dependent Prefetcher via a microcode patch, if available.
 Currently only supported on Intel 13th gen Raptor Lake and above.
 
 ```yaml

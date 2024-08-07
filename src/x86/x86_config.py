@@ -154,8 +154,8 @@ _handled_faults: List[str] = ["PF"]
 
 x86_executor_enable_prefetcher: bool = False
 """ x86_executor_enable_prefetcher: enable all prefetchers"""
-x86_executor_disable_ddp_prefetcher: bool = True
-""" x86_executor_disable_ddp_prefetcher: disable DDP prefetcher (if bit==1)"""
+x86_executor_enable_ddp_prefetcher: bool = False
+""" x86_executor_enable_ddp_prefetcher: Enable DDP prefetcher"""
 x86_executor_enable_ssbp_patch: bool = True
 """ x86_executor_enable_ssbp_patch: enable a patch against Speculative Store Bypass"""
 x86_enable_hpa_gpa_collisions: bool = False

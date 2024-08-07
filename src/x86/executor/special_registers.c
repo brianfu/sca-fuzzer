@@ -114,20 +114,21 @@ static int check_ddpd_u_bit(void)
 
     if (edx & (0b1000)) { 
         // Bit 03: DDPD_U. If 1, indicates bit 8 of the IA32_SPEC_CTRL MSR is supported. 
-        //          Bit 8 of this MSR disables Data Dependent Prefetcher.
+        //          Setting bit 8 (to 1) of this MSR disables Data Dependent Prefetcher.
         return 1; // True
     }
     return 0; // False
 }
 
-static int get_disable_ddp_prefetcher_msr_ctrls(uint64_t *msr_id, uint64_t *msr_mask)
+static int get_enable_ddp_prefetcher_msr_ctrls(uint64_t *msr_id, uint64_t *msr_mask)
 {
     if (cpu_has(cpuinfo, X86_FEATURE_MSR_SPEC_CTRL) && check_ddpd_u_bit()) {
         *msr_id = MSR_IA32_SPEC_CTRL;
         *msr_mask = SPEC_CTRL_DDPD_U;
     } else {
-        PRINT_ERRS("get_disable_ddp_prefetcher_msr_ctrls",
-            "ERROR: Trying to disable non-existent DDP prefetcher\n");
+        // Should not reach here; Handled by caller
+        PRINT_ERRS("get_enable_ddp_prefetcher_msr_ctrls",
+            "ERROR: Trying to enable non-existent DDP prefetcher\n");
         return -1;
     }
     return 0;
@@ -217,19 +218,19 @@ int set_special_registers(void)
     err = apply_msr_mask(msr_id, msr_mask, enable_ssbp_patch);
     CHECK_ERR("set_enable_ssbp_patch");
 
-    // Data Dependent Prefetcher (DDP) disable
+    // Data Dependent Prefetcher (DDP) control
     // If DDP exists, then we can control it
     // Otherwise, fault if we are trying to enable it
     bool ddp_exists = cpu_has(cpuinfo, X86_FEATURE_MSR_SPEC_CTRL) && check_ddpd_u_bit();
     if (ddp_exists) {
-        err = get_disable_ddp_prefetcher_msr_ctrls(&msr_id, &msr_mask);
+        err = get_enable_ddp_prefetcher_msr_ctrls(&msr_id, &msr_mask);
         orig_special_registers_state->spec_ctrl = rdmsr64(msr_id);
-        CHECK_ERR("set_disable_ddp_prefetcher");
-        err = apply_msr_mask(msr_id, msr_mask, disable_ddp_prefetcher);
-        CHECK_ERR("set_disable_ddp_prefetcher");
-    } else if (!disable_ddp_prefetcher) {
+        CHECK_ERR("set_enable_ddp_prefetcher");
+        err = apply_msr_mask(msr_id, msr_mask, enable_ddp_prefetcher);
+        CHECK_ERR("set_enable_ddp_prefetcher");
+    } else if (enable_ddp_prefetcher) {
         // Fault if no known method to control DDP prefetcher && trying to enable it
-        PRINT_ERRS("get_disable_ddp_prefetcher_msr_ctrls", 
+        PRINT_ERRS("get_enable_ddp_prefetcher_msr_ctrls", 
                 "Unable to control DDP prefetcher on this CPU; no known method\n"
                 "13th gen Raptor Lake or above required for DDP prefetcher\n");
         return -EIO;
@@ -320,7 +321,7 @@ void restore_special_registers(void)
     }
 
     if (orig_special_registers_state->spec_ctrl != 0) {
-        get_disable_ddp_prefetcher_msr_ctrls(&msr_id, &msr_mask);
+        get_enable_ddp_prefetcher_msr_ctrls(&msr_id, &msr_mask);
         wrmsr64(msr_id, orig_special_registers_state->spec_ctrl);
     }
 
