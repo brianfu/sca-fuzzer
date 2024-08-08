@@ -2,7 +2,7 @@ instruction_set: x86-64
 
 contract_observation_clause: ct
 contract_execution_clause:
-  - seq
+  - seq # Allowed despite SSBD off if stores are disabled
 
 # No actors
 
@@ -10,6 +10,11 @@ contract_execution_clause:
 # At the cost of false negatives; Closer to 1, less tolerance to noise
 analyser: chi2
 analyser_stat_threshold: 0.2 # Default: 0.2
+
+# Combinatorial Explosion caused by allowance of store bypass (from bpas clause)
+# If depth limited: Will occasionally see v4 even in ct-bpas iff deep nested store speculation
+# OR: hack in generator.py::expand_template() and disable stores (then use seq)
+# model_max_nesting: 10
 
 # Executor
 executor_mode: P+P

@@ -4,6 +4,12 @@
 
 .section .data.main
 .function_main_0:
+    # Save rax, rcx, rdx, flags for rdmsr
+    # Non-deterministic msr regs init'd in model
+    pushfq          # noremove
+    push rax        # noremove
+    push rcx        # noremove
+    push rdx        # noremove
     # Disable PFs; edx:eax; store edx:eax, id ecx
     mov ecx, 0x1a4  # noremove
     mov edx, 0      # noremove
@@ -30,10 +36,20 @@
     wrmsr           # noremove
     mfence          # noremove
     lfence          # noremove
+    # Restore inputs
+    pop rdx         # noremove
+    pop rcx         # noremove
+    pop rax         # noremove
+    popfq           # noremove
 
     # 64 random instructions, 32 mem. accesses
     .macro.random_instructions.64.32: 
 
+    # Save rax, rcx, rdx for rdmsr
+    pushfq          # noremove
+    push rax         # noremove
+    push rcx         # noremove
+    push rdx         # noremove
     # Disable PFs; edx:eax; store edx:eax, id ecx
     mov ecx, 0x1a4  # noremove
     mov edx, 0      # noremove
@@ -60,5 +76,11 @@
     wrmsr           # noremove
     mfence          # noremove
     lfence          # noremove
+    # Restore inputs
+    pop rdx         # noremove
+    pop rcx         # noremove
+    pop rax         # noremove
+    popfq           # noremove
+
 .section .data.main
 .test_case_exit:

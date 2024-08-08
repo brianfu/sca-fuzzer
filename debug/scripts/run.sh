@@ -13,6 +13,7 @@ if [ "$1" == "build" ]; then
   cd $EX_DIR;
   make uninstall; # Allowed to fail, do not chain!
   make clean && make && make install;
+  exit;
 elif [ "$1" == "unittest" ]; then
   echo "Run unit tests"; # Run separately from executor install to avoid noise
   $RVZR_DIR/tests/runtests.sh &> $SCRIPT_DIR/tests.out;
@@ -28,6 +29,7 @@ elif [ "$1" == "acceptancetest" ]; then
 fi
 
 ## Run fuzzer ##
+mkdir -p $VIOL_DIR; # Just in case
 cd $RVZR_DIR;
 TEST_PROGS=100000; # Default: 1000000
 TEST_INPUTS=50; # Default: 50 (Less inputs, more test cases better)
@@ -42,16 +44,13 @@ python $RVZR_DIR/revizor.py tfuzz -s $RVZR_DIR/base.json -n $TEST_PROGS -i $TEST
 # python $RVZR_DIR/revizor.py tfuzz -s $RVZR_DIR/base.json -n $TEST_PROGS -i $TEST_INPUTS -c $CFG_DIR/template_nonif.yaml -w $VIOL_DIR -t $CFG_DIR/template_AV.asm --nonstop &> $SCRIPT_DIR/output.out;
 
 #####
-CURR_VIOL_DIR=$DBG_DIR/stored_vios/240720;
-# 240722/violation-240720-203237 only working on 1.3-dev-prefetcher!!!
-# 240716-223632
-# 240717-092341
+CURR_VIOL_DIR=$DBG_DIR/violations/bugs/violation-240808-130242;
 
 # for i in {1..1}; do
 #  echo -e -n  "\nReproduce $i for $CURR_VIOL_DIR";
 #  python $RVZR_DIR/revizor.py reproduce -s $RVZR_DIR/base.json \
-#  -i $CURR_VIOL_DIR/min_input_sequence/min_input_0001.bin $CURR_VIOL_DIR/min_input_sequence_new/min_input_0004.bin \
-#  -c $CURR_VIOL_DIR/reproduce.yaml -t $CURR_VIOL_DIR/program_minimized_cmt.asm;
+#  -i $CURR_VIOL_DIR/input_*.bin\
+#  -c $CURR_VIOL_DIR/reproduce.yaml -t $CURR_VIOL_DIR/program_minimized.asm;
 # done
 
 # echo "Reproduce $CURR_VIOL_DIR";
@@ -71,15 +70,18 @@ CURR_VIOL_DIR=$DBG_DIR/stored_vios/240720;
 # echo "Minimize";
 # MINIMIZE_INPUTS=50; # Default: 50; Lower is faster!
 # python $RVZR_DIR/revizor.py minimize -s $RVZR_DIR/base.json \
-#  -c $CURR_VIOL_DIR/minimize.yaml -t $CURR_VIOL_DIR/program_minimized_uncmt.asm -i $MINIMIZE_INPUTS \
-#  --enable-input-seq-pass 1 --input-outdir $CURR_VIOL_DIR/min_input_sequence_new --enable-comment-pass 1 \
-#  -o $CURR_VIOL_DIR/program_minimized_cmt.asm &> $CURR_VIOL_DIR/minimize.out;
+#  -c $CURR_VIOL_DIR/minimize.yaml -t $CURR_VIOL_DIR/program.asm -i $MINIMIZE_INPUTS \
+#  --enable-instruction-pass 1 --enable-simplification-pass 1 --num-attempts 5 \
+#  -o $CURR_VIOL_DIR/program_minimized.asm &> $CURR_VIOL_DIR/minimize.out;
 
 # Store output.out after each run!
 #  --num-attempts 10 --enable-instruction-pass 1 --enable-comment-pass 1
 #  --enable-input-diff-pass 1 --input-outdir $CURR_VIOL_DIR/min_inputs --enable-comment-pass 1
 #  --enable-input-seq-pass 1 --input-outdir $CURR_VIOL_DIR/min_input_sequence --enable-comment-pass 1
 #  --enable-input-diff-pass 1 --enable-input-seq-pass 1 --input-outdir $subdir/full_min_inputs --enable-comment-pass 1
+
+# Minimize arch fuzzer violations
+#  --enable-instruction-pass 1 --enable-simplification-pass 1 --num-attempts 5
 
 # xxd file1.hex file1.txt
 # xxd file2.hex file2.txt
