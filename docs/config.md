@@ -174,6 +174,17 @@ The resulting instruction pool is:
      (instructions from instruction_categories - instruction_blocklist) + instruction_allowlist
 
 ```yaml
+Name: instruction_allow_stores
+Default: True
+Options: (any instruction names)
+```
+
+Allow memory store instructions.
+Can prevent store bypass violations outside of BPAS observation clause.
+Relevant for Intel DDP prefetcher testing as SSBP patch must be disabled.
+
+```yaml
+
 Name: program_generator_seed
 Default: 0
 ```

@@ -100,6 +100,9 @@ class Conf:
     instruction_blocklist_append: List[str] = []
     """ instruction_blocklist_append: same as instruction_blocklist, but the list is added
     to the existing blocklist instead of replacing it """
+    instruction_allow_stores: bool = True
+    """ instruction_allow_stores: allow memory store instructions.
+    Relevant for Intel DDP prefetcher testing as SSBP patch must be disabled """
     program_generator_seed: int = 0
     """ program_generator_seed: seed of the program generator """
     program_size: int = 24

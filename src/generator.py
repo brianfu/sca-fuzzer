@@ -290,7 +290,8 @@ class ConfigurableGenerator(Generator, abc.ABC):
             actor.observer = desc['observer']
 
             # check for duplicates (this should never be possible, but just in case)
-            assert name not in test_case.actors or test_case.actors[name] == actor, "Duplicate actr"
+            assert name not in test_case.actors or \
+                test_case.actors[name] == actor, "Duplicate actor"
 
             # add the actor to the test case
             test_case.actors[name] = actor
@@ -567,7 +568,10 @@ class RandomGenerator(ConfigurableGenerator, abc.ABC):
             blocklist = CONF._actors[a_name]["instruction_blocklist"]
             non_memory_access_instructions = \
                 [i for i in self.non_memory_access_instructions if i.name not in blocklist]
-            store_instructions = [i for i in self.store_instructions if i.name not in blocklist]
+            if CONF.instruction_allow_stores:
+                store_instructions = [i for i in self.store_instructions if i.name not in blocklist]
+            else:
+                store_instructions = []
             load_instruction = [i for i in self.load_instruction if i.name not in blocklist]
 
             # replace the macro with random instructions
