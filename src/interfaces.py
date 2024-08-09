@@ -910,8 +910,8 @@ class Violation(EquivalenceClass):
         self.htrace_groups = eq_cls.htrace_groups
         self.input_sequence = inputs
 
-    def __len__(self):
-        return len(self.htrace_groups)
+    # def __len__(self):
+    #     return len(self.htrace_groups)
 
     @classmethod
     def from_measurements(cls, ctrace: CTrace, measurements: List[Measurement],

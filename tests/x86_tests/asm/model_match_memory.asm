@@ -11,7 +11,7 @@ add rbx, qword ptr [r14 + 4096 + 4096 + 320]  # overflow pad
 mov rcx, qword ptr [r14 + 4096 + 4096]  # reg init
 mov rdx, qword ptr [r14 + 4096 + 4096 + 48]  # patched flags
 mov rsi, qword ptr [r14 + 4096 + 4096 + 64]  # simd init
-mov rdi, r14
+mov rdi, r14 # CHECK this will always violate if dummy measurement!
 
 
 # uncomment the following to test the complete sandbox contents

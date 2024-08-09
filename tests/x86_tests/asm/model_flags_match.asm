@@ -2,7 +2,7 @@
 .test_case_enter:
 .section .data.main
 lfence
-mov rax, r14
+mov rax, r14 # CHECK: This will always violate if dummy measurement!
 
 mov rbx, 0
 mov rcx, 64
