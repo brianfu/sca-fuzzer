@@ -13,7 +13,7 @@ import copy
 from . import factory
 from .interfaces import Fuzzer, CTrace, HTrace, Input, Violation, TestCase, \
     Generator, InputGenerator, Model, Executor, Analyser, InputID, InputTaint, \
-    HardwareTracingError
+    HardwareTracingError, Measurement
 from .isa_loader import InstructionSet
 from .config import CONF
 from .util import Logger, STAT, pretty_htrace
@@ -690,6 +690,10 @@ class ArchitecturalFuzzer(FuzzerGeneric):
         self.LOG.warning("fuzzer", "Running in architectural mode. "
                          "Contract violations can't be detected!")
 
+    def initialize_modules(self):
+        super().initialize_modules()
+        self.model = self.arch_model  # Necessary for ArchFuzzer to return a violation
+
     def fuzzing_round(self,
                       test_case: TestCase,
                       inputs: List[Input],
@@ -700,7 +704,8 @@ class ArchitecturalFuzzer(FuzzerGeneric):
         """
         # Create a pseudo-violation to reuse the existing is_architectural_mismatch function
         null_ctrace = CTrace.get_null()
-        violation = Violation.from_measurements(null_ctrace, [], [], inputs)
+        dummy_measurement = Measurement(1, Input(), null_ctrace, HTrace.get_null())
+        violation = Violation.from_measurements(null_ctrace, [], [[dummy_measurement]], inputs)
 
         # Check for architectural mismatches
         if self.is_architectural_mismatch(test_case, violation):

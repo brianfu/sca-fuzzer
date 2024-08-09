@@ -357,9 +357,9 @@ class Logger:
                 break
             print(f"Input {i}:")
             if self.dbg_dump_ctraces:
-                print(f"  Model Registers: {model_regs[i]}")
+                print(f"  Model Registers: {[hex(x) for x in model_regs[i]]}")
             if self.dbg_dump_htraces:
-                print(f"  HW Registers:    {hardware_regs[i]}")
+                print(f"  HW Registers:    {[hex(x) for x in hardware_regs[i]]}")
 
     def fuzzer_report_violations(self, violation: Violation, model) -> None:
         print("\n\n================================ Violations detected ==========================")
