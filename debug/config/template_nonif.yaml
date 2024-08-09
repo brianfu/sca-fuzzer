@@ -20,16 +20,14 @@ actors:
 analyser: chi2
 analyser_stat_threshold: 0.2 # Default: 0.2
 
-# Combinatorial Explosion caused by allowance of store bypass (from bpas clause)
-# If depth limited: Will occasionally see v4 even in ct-bpas iff deep nested store speculation
-# OR: hack in generator.py::expand_template() and disable stores (then use seq)
-# model_max_nesting: 10
-
 # Executor
 executor_mode: P+P
 x86_executor_enable_ssbp_patch: false
 x86_executor_enable_ddp_prefetcher: true
 x86_executor_enable_prefetcher: true
+
+# Turn off stores to avoid v4 false positives when SSBD off
+instruction_allow_stores: false
 
 # Misc. configuration
 inputs_per_class: 2
