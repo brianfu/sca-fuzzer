@@ -40,17 +40,19 @@ TEST_INPUTS=50; # Default: 50 (Less inputs, more test cases better)
 # echo "Template Run";
 # python $RVZR_DIR/revizor.py tfuzz -s $RVZR_DIR/base.json -n $TEST_PROGS -i $TEST_INPUTS -c $CFG_DIR/template.yaml -w $VIOL_DIR -t $CFG_DIR/template_noactors.asm --nonstop &> $SCRIPT_DIR/output.out;
 
-echo "Noninterference Template Run";
-python $RVZR_DIR/revizor.py tfuzz -s $RVZR_DIR/base.json -n $TEST_PROGS -i $TEST_INPUTS -c $CFG_DIR/template_nonif.yaml -w $VIOL_DIR -t $CFG_DIR/template_AV.asm --nonstop &> $SCRIPT_DIR/output.out;
+# echo "Noninterference Template Run";
+# python $RVZR_DIR/revizor.py tfuzz -s $RVZR_DIR/base.json -n $TEST_PROGS -i $TEST_INPUTS -c $CFG_DIR/template_nonif.yaml -w $VIOL_DIR -t $CFG_DIR/template_AV.asm --nonstop &> $SCRIPT_DIR/output.out;
 
 #####
-CURR_VIOL_DIR=$DBG_DIR/violations/bugs/violation-240808-130242;
+CURR_VIOL_DIR=$DBG_DIR/violations/noactors/violation-240808-130330;
+# violation-240808-130330 # More stable
+# violation-240808-204429
 
-# for i in {1..1}; do
+# for i in {1..5}; do
 #  echo -e -n  "\nReproduce $i for $CURR_VIOL_DIR";
 #  python $RVZR_DIR/revizor.py reproduce -s $RVZR_DIR/base.json \
 #  -i $CURR_VIOL_DIR/input_*.bin\
-#  -c $CURR_VIOL_DIR/reproduce.yaml -t $CURR_VIOL_DIR/program_minimized.asm;
+#  -c $CURR_VIOL_DIR/reproduce.yaml -t $CURR_VIOL_DIR/program.asm;
 # done
 
 # echo "Reproduce $CURR_VIOL_DIR";
