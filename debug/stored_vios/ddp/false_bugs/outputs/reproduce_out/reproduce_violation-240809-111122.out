@@ -1,0 +1,31 @@
+
+INFO: [fuzzer] Starting at 20:41:04
+> Entering slow path...> Priming  1              > Increase sample size to 40> Priming  1              > Increase sample size to 160> Priming  1              > Increase sample size to 320> Priming  1             
+WARNING: [fuzzer] Architectural violation detected
+Input 0:
+  Model Registers:
+  rax:0000000000008cbf rbx:00000000000011fa rcx:000000004000006a rdx:0000000000000600 rsi:0000000000000000 rdi:000000000000002f 
+  HW Registers:   
+  rax:0000000000008cbf rbx:00000000000011fa rcx:000000004000006a rdx:0000000000000600 rsi:0000000000000000 rdi:000000000000002f 
+
+
+================================ Statistics ===================================
+
+Test Cases: 1
+Inputs per test case: 100.0
+Violations: 0
+Effectiveness: 
+  Total Cls: 50.0
+  Effective Cls: 50.0
+Discarded Test Cases:
+  Speculation Filter: 0
+  Observation Filter: 0
+  Fast Path: 0
+  Max Nesting Check: 0
+  Tainting Check: 0
+  Early Priming Check: 0
+  Large Sample Check: 0
+  Priming Check: 0
+
+Duration: 39.6
+Finished at 20:41:44
