@@ -1,20 +1,19 @@
 
-INFO: [fuzzer] Starting at 23:11:16
-> Entering slow path...> Priming  1              > Increase sample size to 40> Priming  1              > Increase sample size to 160> Priming  1              > Increase sample size to 1000> Priming  1             
+INFO: [fuzzer] Starting at 23:37:54
+> Entering slow path...> Priming  1              > Increase sample size to 40> Priming  1              > Increase sample size to 160> Priming  1             
 
 ================================ Violations detected ==========================
 Contract trace:
  14054479369024183107 (hash)
 Hardware traces:
-  Input group 1: [2]
-  Input group 2: [52]
-  ^^^.......^.....^^^..^........................................^^ [959    | 0     ]
-  ^^^.......^......^^..^.........................................^ [33     | 21    ]
-  ^^^.......^.....^^^..^.........................................^ [8      | 0     ]
-  ^^^.......^.....^^^..^....................^....................^ [0      | 979   ]
+  Input group 1: [0]
+  Input group 2: [16]
+  ^^^.......^......^^..^.........................................^ [160    | 2     ]
+  ^^^.......^.....^^^..^....................^....................^ [0      | 147   ]
+  ^^^.......^.....^^^..^.........................................^ [0      | 11    ]
 
 ================================ Violation Traces =============================
-                      ##### Input 2 #####
+                      ##### Input 0 #####
 
                      ##### Input 0 #####
 0x0 : macro .switch, .actor2.function_actor2_0
@@ -666,7 +665,7 @@ Hardware traces:
 
 
 
-                      ##### Input 52 #####
+                      ##### Input 16 #####
 
                      ##### Input 0 #####
 0x0 : macro .switch, .actor2.function_actor2_0
@@ -1322,11 +1321,11 @@ Hardware traces:
 ================================ Statistics ===================================
 
 Test Cases: 1
-Inputs per test case: 100.0
+Inputs per test case: 17.0
 Violations: 1
 Effectiveness: 
-  Total Cls: 79.0
-  Effective Cls: 21.0
+  Total Cls: 2.0
+  Effective Cls: 2.0
 Discarded Test Cases:
   Speculation Filter: 0
   Observation Filter: 0
@@ -1337,5 +1336,5 @@ Discarded Test Cases:
   Large Sample Check: 0
   Priming Check: 0
 
-Duration: 105.0
-Finished at 23:13:01
+Duration: 5.3
+Finished at 23:38:00
