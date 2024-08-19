@@ -5,7 +5,7 @@
 
 mov rcx, 0x00000048 # IA32_SPEC_CTRL
 rdmsr
-mov dword ptr [r14], eax
+mov dword ptr [r14], eax # Push to stack
 mov dword ptr [r14 + 4], edx
 
 mov edx, 0
@@ -18,7 +18,7 @@ wrmsr # edx:eax; store edx:eax, id ecx
 mov rax, qword ptr [r14 + 0x400]
 
 .macro.fault_handler:
-mov eax, dword ptr [r14]
+mov eax, dword ptr [r14] # Restore from stack
 mov edx, dword ptr [r14 + 4]
 mov rcx, 0x00000048
 wrmsr

@@ -10,11 +10,11 @@
     push rax        # noremove
     push rcx        # noremove
     push rdx        # noremove
-    # Disable PFs; edx:eax; store edx:eax, id ecx
-    mov ecx, 0x1a4  # noremove
-    mov edx, 0      # noremove
-    mov eax, 0b101111 # noremove
-    wrmsr           # noremove
+    # # Disable PFs; edx:eax; store edx:eax, id ecx
+    # mov ecx, 0x1a4  # noremove
+    # mov edx, 0      # noremove
+    # mov eax, 0b101111 # noremove
+    # wrmsr           # noremove
     # Disable DDP
     mov ecx, 0x48  # noremove
     rdmsr          # noremove
@@ -24,10 +24,11 @@
     mfence          # noremove
     lfence          # noremove
     .macro.measurement_start:
-    # Enable PFs; edx:eax; store edx:eax, id ecx
-    mov ecx, 0x1a4  # noremove
-    mov edx, 0      # noremove
-    mov eax, 0b000000 # noremove
+    # # Enable PFs; edx:eax; store edx:eax, id ecx
+    # mov ecx, 0x1a4  # noremove
+    # mov edx, 0      # noremove
+    # mov eax, 0b000000 # noremove
+    # wrmsr        # noremove
     # Enable DDP
     mov ecx, 0x48  # noremove
     rdmsr          # noremove
@@ -50,11 +51,11 @@
     push rax         # noremove
     push rcx         # noremove
     push rdx         # noremove
-    # Disable PFs; edx:eax; store edx:eax, id ecx
-    mov ecx, 0x1a4  # noremove
-    mov edx, 0      # noremove
-    mov eax, 0b101111 # noremove
-    wrmsr           # noremove
+    # # Disable PFs; edx:eax; store edx:eax, id ecx
+    # mov ecx, 0x1a4  # noremove
+    # mov edx, 0      # noremove
+    # mov eax, 0b101111 # noremove
+    # wrmsr           # noremove
     # Disable DDP
     mov ecx, 0x48  # noremove
     rdmsr          # noremove
@@ -64,10 +65,11 @@
     mfence          # noremove
     lfence          # noremove
     .macro.measurement_end:
-    # Enable PFs; edx:eax; store edx:eax, id ecx
-    mov ecx, 0x1a4  # noremove
-    mov edx, 0      # noremove
-    mov eax, 0b000000 # noremove
+    # # Enable PFs; edx:eax; store edx:eax, id ecx
+    # mov ecx, 0x1a4  # noremove
+    # mov edx, 0      # noremove
+    # mov eax, 0b000000 # noremove
+    # wrmsr        # noremove
     # Enable DDP
     mov ecx, 0x48  # noremove
     rdmsr          # noremove

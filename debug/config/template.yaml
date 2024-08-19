@@ -15,7 +15,7 @@ analyser_stat_threshold: 0.2 # Default: 0.2
 executor_mode: P+P
 x86_executor_enable_ssbp_patch: false
 x86_executor_enable_ddp_prefetcher: true
-x86_executor_enable_prefetcher: true
+x86_executor_enable_prefetcher: false # DDP only
 
 # Turn off stores to avoid v4 false positives when SSBD off
 instruction_allow_stores: false
@@ -63,7 +63,7 @@ logging_modes:
   - info
   - stat
   - dbg_coverage
-  - dbg_violation
+  # - dbg_violation
   - dbg_timestamp
   # - dbg_generator
   # - dbg_priming
