@@ -17,7 +17,7 @@ if [ "$1" == "build" ]; then
 fi
 
 #####
-MULTI_VIOS_DIR=$DBG_DIR/violations/bugs;
+MULTI_VIOS_DIR=$DBG_DIR/stored_vios/ddp_240814;
 
 echo "Reproduce original violations for all in $MULTI_VIOS_DIR";
 rm -rf $MULTI_VIOS_DIR/outputs/reproduce_out; # Clear it first

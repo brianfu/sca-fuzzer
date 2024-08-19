@@ -25,7 +25,8 @@
 				"*.isa": "cpp",
 				"perf_counters.h": "c",
 				"host_page_tables.h": "c",
-				"types.h": "c"
+				"types.h": "c",
+				"test_case_parser.h": "c"
 			},
 			"yapf.args": [
 				"--style={based_on_style: yapf, column_limit: 100, indent_width: 4, DISABLE_ENDING_COMMA_HEURISTIC: 0,SPLIT_BEFORE_ARITHMETIC_OPERATOR: True,SPLIT_BEFORE_LOGICAL_OPERATOR: True}"

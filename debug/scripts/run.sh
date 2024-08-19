@@ -41,46 +41,84 @@ TEST_INPUTS=50; # Default: 50 (Less inputs, more test cases better)
 # python $RVZR_DIR/revizor.py tfuzz -s $RVZR_DIR/base.json -n $TEST_PROGS -i $TEST_INPUTS -c $CFG_DIR/template.yaml -w $VIOL_DIR -t $CFG_DIR/template_noactors.asm --nonstop &> $SCRIPT_DIR/output.out;
 
 # echo "Noninterference Template Run";
-# python $RVZR_DIR/revizor.py tfuzz -s $RVZR_DIR/base.json -n $TEST_PROGS -i $TEST_INPUTS -c $CFG_DIR/template_nonif.yaml -w $VIOL_DIR -t $CFG_DIR/template_AV.asm --nonstop &> $SCRIPT_DIR/output.out;
+# python $RVZR_DIR/revizor.py tfuzz -s $RVZR_DIR/base.json -n $TEST_PROGS -i $TEST_INPUTS -c $CFG_DIR/template_nonif.yaml -w $VIOL_DIR -t $CFG_DIR/template_AV_DDPonly.asm --nonstop &> $SCRIPT_DIR/output.out;
 
 #####
-CURR_VIOL_DIR=$DBG_DIR/violations/noactors/violation-240808-130330;
-# violation-240808-130330 # More stable
-# violation-240808-204429
+CURR_VIOL_DIR=$DBG_DIR/stored_vios/ddp_240814/violation-240813-202057;
+# violation-240813-225849 # No inputs leaked
+# violation-240814-003838 # Can't violate w/ og inputs, min prog; Identical inputs, no idea
+# violation-240813-174754 # Curr
+# violation-240813-202057 # Curr
+# violation-240813-200759 # Re-run, check that minimized comments appear
+# violation-240814-000211
 
 # for i in {1..5}; do
 #  echo -e -n  "\nReproduce $i for $CURR_VIOL_DIR";
 #  python $RVZR_DIR/revizor.py reproduce -s $RVZR_DIR/base.json \
 #  -i $CURR_VIOL_DIR/input_*.bin\
 #  -c $CURR_VIOL_DIR/reproduce.yaml -t $CURR_VIOL_DIR/program.asm;
-# done
+# done; exit;
 
 # echo "Reproduce $CURR_VIOL_DIR";
 # python $RVZR_DIR/revizor.py reproduce -s $RVZR_DIR/base.json \
-# -i $CURR_VIOL_DIR/min_input_sequence_new/min_input_0001.bin $CURR_VIOL_DIR/min_input_sequence_new/min_input_0004.bin \
-# -c $CURR_VIOL_DIR/reproduce_manual.yaml -t $CURR_VIOL_DIR/program_minimized_cmt.asm &> $CURR_VIOL_DIR/reproduce.out;
+# -i $CURR_VIOL_DIR/input_*.bin \
+# -c $CURR_VIOL_DIR/reproduce.yaml -t $CURR_VIOL_DIR/program.asm &> $CURR_VIOL_DIR/reproduce.out; exit;
+
+
+# echo "Reproduce $CURR_VIOL_DIR";
+# python $RVZR_DIR/revizor.py reproduce -s $RVZR_DIR/base.json \
+# -i \
+#   $CURR_VIOL_DIR/min_input_sequence/min_input_0027.bin \
+#   $CURR_VIOL_DIR/min_input_sequence/min_input_0028.bin \
+#   $CURR_VIOL_DIR/min_input_sequence/min_input_0029.bin \
+#   $CURR_VIOL_DIR/min_input_sequence/min_input_0030.bin \
+#   $CURR_VIOL_DIR/min_input_sequence/min_input_0033.bin \
+#   $CURR_VIOL_DIR/min_input_sequence/min_input_0034.bin \
+#   $CURR_VIOL_DIR/min_input_sequence/min_input_0050.bin \
+#   $CURR_VIOL_DIR/min_input_sequence/min_input_0051.bin \
+#   $CURR_VIOL_DIR/min_input_sequence/min_input_0052.bin \
+#   $CURR_VIOL_DIR/min_input_sequence/min_input_0053.bin \
+#   $CURR_VIOL_DIR/min_input_sequence/min_input_0054.bin \
+#   $CURR_VIOL_DIR/min_input_sequence/min_input_0055.bin \
+# -c $CURR_VIOL_DIR/reproduce.yaml -t $CURR_VIOL_DIR/program_minimized.asm &> $CURR_VIOL_DIR/reproduce.out; exit;
+
+# echo "Reproduce $CURR_VIOL_DIR";
+# CURR_VIOL_DIR=$DBG_DIR/stored_vios/ddp_240814/violation-240813-174754;
+# python $RVZR_DIR/revizor.py reproduce -s $RVZR_DIR/base.json \
+# -i \
+#   $CURR_VIOL_DIR/min_input_sequence/min_input_001*.bin \
+#   $CURR_VIOL_DIR/min_input_sequence/min_input_003*.bin \
+#   $CURR_VIOL_DIR/min_input_sequence/min_input_004*.bin \
+#   $CURR_VIOL_DIR/min_input_sequence/min_input_006*.bin \
+# -c $CURR_VIOL_DIR/reproduce.yaml -t $CURR_VIOL_DIR/program_minimized.asm &> $CURR_VIOL_DIR/reproduce.out; exit;
+
 
 # echo "Reproduce w/ fuzz";
 # python $RVZR_DIR/revizor.py fuzz -s $RVZR_DIR/base.json -i 10 -n 1000 -c $CURR_VIOL_DIR/reproduce.yaml -t $CURR_VIOL_DIR/program_minimized.asm 
-# &> $CURR_VIOL_DIR/reproduce_w_fuzz.out;
+# &> $CURR_VIOL_DIR/reproduce.out; exit;
 
 # echo "Reproduce w/ tfuzz"; 
-# python $RVZR_DIR/revizor.py tfuzz -s $RVZR_DIR/base.json -n 11 -t $CFG_DIR/template.asm -i 50 -c $CURR_VIOL_DIR/reproduce.yaml &> $CURR_VIOL_DIR/reproduce_w_tfuzz.out;
+# python $RVZR_DIR/revizor.py tfuzz -s $RVZR_DIR/base.json -n 11 -t $CFG_DIR/template.asm -i 50 -c $CURR_VIOL_DIR/reproduce.yaml &> $CURR_VIOL_DIR/reproduce.out; exit;
 
 #####
 
-# echo "Minimize";
-# MINIMIZE_INPUTS=50; # Default: 50; Lower is faster!
-# python $RVZR_DIR/revizor.py minimize -s $RVZR_DIR/base.json \
-#  -c $CURR_VIOL_DIR/minimize.yaml -t $CURR_VIOL_DIR/program.asm -i $MINIMIZE_INPUTS \
-#  --enable-instruction-pass 1 --enable-simplification-pass 1 --num-attempts 5 \
-#  -o $CURR_VIOL_DIR/program_minimized.asm &> $CURR_VIOL_DIR/minimize.out;
+echo "Minimize";
+MINIMIZE_INPUTS=50; # Default: 50; Lower is faster!
+python $RVZR_DIR/revizor.py minimize -s $RVZR_DIR/base.json \
+ -c $CURR_VIOL_DIR/minimize.yaml -t $CURR_VIOL_DIR/program.asm -i $MINIMIZE_INPUTS \
+ --enable-input-diff-pass 1 --input-outdir $CURR_VIOL_DIR/min_inputs \
+ --enable-comment-pass 1 \
+ -o $CURR_VIOL_DIR/program_minimized.asm &> $CURR_VIOL_DIR/minimize.out; exit;
 
-# Store output.out after each run!
-#  --num-attempts 10 --enable-instruction-pass 1 --enable-comment-pass 1
-#  --enable-input-diff-pass 1 --input-outdir $CURR_VIOL_DIR/min_inputs --enable-comment-pass 1
-#  --enable-input-seq-pass 1 --input-outdir $CURR_VIOL_DIR/min_input_sequence --enable-comment-pass 1
-#  --enable-input-diff-pass 1 --enable-input-seq-pass 1 --input-outdir $subdir/full_min_inputs --enable-comment-pass 1
+# Inputs and program minimizer combo:
+#  --num-attempts 10 --enable-instruction-pass 1
+#  --enable-input-diff-pass 1 --enable-input-seq-pass 1 --input-outdir $CURR_VIOL_DIR/min_input_sequence \
+#  --enable-comment-pass 1 \
+
+# Other commonly used minimizer options:
+#  --enable-simplification-pass 1 --enable-constant-pass 1 --enable-mask-pass 1 --enable-label-pass 1 --enable-fence-pass 1 \
+#  --enable-input-diff-pass 1 --input-outdir $CURR_VIOL_DIR/min_inputs --enable-comment-pass 1 \
+#  --enable-input-seq-pass 1 --input-outdir $CURR_VIOL_DIR/min_sequence --enable-comment-pass 1 \
 
 # Minimize arch fuzzer violations
 #  --enable-instruction-pass 1 --enable-simplification-pass 1 --num-attempts 5
@@ -99,5 +137,4 @@ CURR_VIOL_DIR=$DBG_DIR/violations/noactors/violation-240808-130330;
 # scp -r $VIOL_DIR/violation-240705-132524/ brian@169.254.0.2:/home/brian/code/sca-fuzzer/violations
 # scp -r $DBG_DIR brian@169.254.0.2:/home/brian/code/sca-fuzzer/dbg
 # mem access:.*\n
-#  --num-attempts 10 --enable-instruction-pass 1 --enable-simplification-pass 0 --enable-constant-pass 0 --enable-label-pass 0 --enable-fence-pass 0 --enable-comment-pass 1
 # taskset -cp <core> <pid>
