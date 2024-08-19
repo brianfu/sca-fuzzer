@@ -1,0 +1,28 @@
+
+INFO: [fuzzer] Starting at 16:16:20
+> Entering slow path...> Priming  3              > Increase sample size to 40> Priming  3              > Increase sample size to 160Traceback (most recent call last):
+  File "/home/t-fubo/code/sca-fuzzer/revizor.py", line 21, in <module>
+    exit_code = main()
+  File "/home/t-fubo/code/sca-fuzzer/src/cli.py", line 403, in main
+    exit_code = fuzzer.start_from_asm(1, args.num_inputs, 0, False, False)
+  File "/home/t-fubo/code/sca-fuzzer/src/fuzzer.py", line 120, in start_from_asm
+    return self._start(num_test_cases, num_inputs, timeout, nonstop, save_violations)
+  File "/home/t-fubo/code/sca-fuzzer/src/x86/x86_fuzzer.py", line 117, in _start
+    return super()._start(num_test_cases, num_inputs, timeout, nonstop, save_violations)
+  File "/home/t-fubo/code/sca-fuzzer/src/fuzzer.py", line 155, in _start
+    violation = self.fuzzing_round(test_case, inputs)
+  File "/home/t-fubo/code/sca-fuzzer/src/fuzzer.py", line 285, in fuzzing_round
+    violations, _, htraces = self._collect_traces(args)
+  File "/home/t-fubo/code/sca-fuzzer/src/fuzzer.py", line 348, in _collect_traces
+    htraces = self.executor.trace_test_case(args.inputs, args.n_reps)
+  File "/home/t-fubo/code/sca-fuzzer/src/x86/x86_executor.py", line 411, in trace_test_case
+    for rid, iid, htrace, pfc_list in read_trace(n_reps, n_inputs, enable_warnings):
+  File "/home/t-fubo/code/sca-fuzzer/src/x86/x86_executor.py", line 144, in read_trace
+    output = subprocess.check_output(
+  File "/usr/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/usr/lib/python3.10/subprocess.py", line 505, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+  File "/usr/lib/python3.10/subprocess.py", line 1141, in communicate
+    stdout = self.stdout.read()
+KeyboardInterrupt

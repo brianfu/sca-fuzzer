@@ -1,0 +1,235 @@
+[PASS 1] Reproducing the violation
+  > Violation reproduced. Proceeding with minimization
+  > Violating input IDs: [36, 86]
+[INFO] Minimization attempt 1/10
+[PASS 2] Instruction Removal Pass
+
+..--.-.....................................
+WARNING: [fuzzer] Architectural violation detected
+Input 0:
+  Model Registers:
+  rax:0000000000000086 rbx:00000000ff3e5865 rcx:0000000000000001 rdx:00000000000001ed rsi:0000000000000086 rdi:0000000000000001 
+  HW Registers:   
+  rax:0000000000000086 rbx:00000000ff3e5865 rcx:0000000000000001 rdx:00000000000001ed rsi:0000000000000086 rdi:0000000000000001 
+
+-.--.....----.-..-...
+.-.....-......-.......--
+[PASS 3] Instruction Simplification Pass
+
+.--..-............-.........-..
+WARNING: [fuzzer] Architectural violation detected
+Input 0:
+  Model Registers:
+  rax:00000000000000f6 rbx:0000000000000175 rcx:0000000000000001 rdx:0000000000000ff5 rsi:00000000000020f5 rdi:0000000000001acb 
+  HW Registers:   
+  rax:00000000000000f6 rbx:0000000000000175 rcx:0000000000000001 rdx:0000000000000ff5 rsi:00000000000020f5 rdi:0000000000001acb 
+
+-..-.....-...-.-.-.-.--..--.-----
+-
+[PASS 4] Constant Simplification Pass
+
+----------------------------------------------------------------
+-
+[PASS 5] Mask Simplification Pass
+
+.-.-.------.....-....-..--..----.-...-.----..-..-.--....--------
+-------.-.----..-.--..----..-..----.-.--.
+[INFO] Minimization attempt 2/10
+[PASS 6] Instruction Removal Pass
+
+.-.....-.......-....-.-..........--....---..-.-.-..-..--.......-
+.
+[PASS 7] Instruction Simplification Pass
+
+--.....-.--.
+WARNING: [fuzzer] Architectural violation detected
+Input 0:
+  Model Registers:
+  rax:000000000000cd6a rbx:00000000ff0f618c rcx:0000000000000000 rdx:00000000000010b8 rsi:0000000000000f9c rdi:0000000000001ac4 
+  HW Registers:   
+  rax:000000000000cd6a rbx:00000000ff0f618c rcx:0000000000000000 rdx:00000000000010b8 rsi:0000000000000f9c rdi:0000000000001ac4 
+
+-.--.-..---..-.....--
+[PASS 8] Constant Simplification Pass
+
+---------------------------------
+[PASS 9] Mask Simplification Pass
+
+------.-.-.---...-..-
+WARNING: [fuzzer] Architectural violation detected
+Input 0:
+  Model Registers:
+  rax:0000000000000698 rbx:000000005c7c1588 rcx:0000000000000000 rdx:00000000000030b0 rsi:0000000000000aa8 rdi:0000000000001ac4 
+  HW Registers:   
+  rax:0000000000000698 rbx:000000005c7c1588 rcx:0000000000000000 rdx:00000000000030b0 rsi:0000000000000aa8 rdi:0000000000001ac4 
+
+--.-.--.-------------....---..---.-.
+[INFO] Minimization attempt 3/10
+[PASS 10] Instruction Removal Pass
+
+--...-........---..----..-.------
+[PASS 11] Instruction Simplification Pass
+
+--.-..---..-----...-.--
+[PASS 12] Constant Simplification Pass
+
+-----------------------
+[PASS 13] Mask Simplification Pass
+
+----.-.-.-
+WARNING: [fuzzer] Architectural violation detected
+Input 0:
+  Model Registers:
+  rax:000000000000469b rbx:0000000000001ffc rcx:0000000000000000 rdx:00000000000010b4 rsi:0000000000000aa8 rdi:0000000000001ac4 
+  HW Registers:   
+  rax:000000000000469b rbx:0000000000001ffc rcx:0000000000000000 rdx:00000000000010b4 rsi:0000000000000aa8 rdi:0000000000001ac4 
+
+--.-..------------..---..---.-.
+[INFO] Minimization attempt 4/10
+[PASS 14] Instruction Removal Pass
+
+-----.---...-------..-.
+[PASS 15] Instruction Simplification Pass
+
+--.-..---..-------.-
+[PASS 16] Constant Simplification Pass
+
+--------------------
+[PASS 17] Mask Simplification Pass
+
+----.-..-
+WARNING: [fuzzer] Architectural violation detected
+Input 0:
+  Model Registers:
+  rax:000000000000469b rbx:0000000000001ff8 rcx:0000000000000000 rdx:00000000000010b4 rsi:0000000000000aa8 rdi:0000000000001a5b 
+  HW Registers:   
+  rax:000000000000469b rbx:0000000000001ff8 rcx:0000000000000000 rdx:00000000000010b4 rsi:0000000000000aa8 rdi:0000000000001a5b 
+
+--.-.---.------..---..-.-
+[INFO] Minimization attempt 5/10
+[PASS 18] Instruction Removal Pass
+
+---.-----.---.-.----
+[PASS 19] Instruction Simplification Pass
+
+----.------..----
+[PASS 20] Constant Simplification Pass
+
+-----------------
+[PASS 21] Mask Simplification Pass
+
+----...-
+WARNING: [fuzzer] Architectural violation detected
+Input 0:
+  Model Registers:
+  rax:000000000000469b rbx:0000000000001ff0 rcx:0000000000000000 rdx:00000000000010b0 rsi:0000000000000aa8 rdi:0000000000001a69 
+  HW Registers:   
+  rax:000000000000469b rbx:0000000000001ff0 rcx:0000000000000000 rdx:00000000000010b0 rsi:0000000000000aa8 rdi:0000000000001a69 
+
+----.--.-----..--..-.-
+[INFO] Minimization attempt 6/10
+[PASS 22] Instruction Removal Pass
+
+-------------.---
+[PASS 23] Instruction Simplification Pass
+
+-----------.-.---
+[PASS 24] Constant Simplification Pass
+
+-----------------
+[PASS 25] Mask Simplification Pass
+
+----...-
+WARNING: [fuzzer] Architectural violation detected
+Input 0:
+  Model Registers:
+  rax:000000000000469b rbx:0000000000001fe0 rcx:0000000000000000 rdx:00000000000010b0 rsi:0000000000000aa8 rdi:0000000000001a69 
+  HW Registers:   
+  rax:000000000000469b rbx:0000000000001fe0 rcx:0000000000000000 rdx:00000000000010b0 rsi:0000000000000aa8 rdi:0000000000001a69 
+
+----.--.-----------.-
+[INFO] Minimization attempt 7/10
+[PASS 26] Instruction Removal Pass
+
+-----------..----
+[PASS 27] Instruction Simplification Pass
+
+-----------.----
+[PASS 28] Constant Simplification Pass
+
+----------------
+[PASS 29] Mask Simplification Pass
+
+----...-
+WARNING: [fuzzer] Architectural violation detected
+Input 0:
+  Model Registers:
+  rax:000000000000469b rbx:0000000000001fe0 rcx:0000000000000000 rdx:00000000000010b0 rsi:0000000000000aa8 rdi:0000000000001a69 
+  HW Registers:   
+  rax:000000000000469b rbx:0000000000001fe0 rcx:0000000000000000 rdx:00000000000010b0 rsi:0000000000000aa8 rdi:0000000000001a69 
+
+----.--.----.-..---
+[INFO] Minimization attempt 8/10
+[PASS 30] Instruction Removal Pass
+
+-.-----------.--
+[PASS 31] Instruction Simplification Pass
+
+------------.-
+[PASS 32] Constant Simplification Pass
+
+--------------
+[PASS 33] Mask Simplification Pass
+
+---...-
+WARNING: [fuzzer] Architectural violation detected
+Input 0:
+  Model Registers:
+  rax:000000000000d843 rbx:0000000000001580 rcx:0000000000000300 rdx:0000000000000ec8 rsi:0000000000001430 rdi:0000000000001a69 
+  HW Registers:   
+  rax:000000000000d843 rbx:0000000000001580 rcx:0000000000000300 rdx:0000000000000ec8 rsi:0000000000001430 rdi:0000000000001a69 
+
+----.-------.-.-.-
+[INFO] Minimization attempt 9/10
+[PASS 34] Instruction Removal Pass
+
+------------.-
+[PASS 35] Instruction Simplification Pass
+
+----------.-.-
+[PASS 36] Constant Simplification Pass
+
+--------------
+[PASS 37] Mask Simplification Pass
+
+---...-
+WARNING: [fuzzer] Architectural violation detected
+Input 0:
+  Model Registers:
+  rax:0000000000000dc5 rbx:0000000000001580 rcx:0000000000000600 rdx:0000000000001b70 rsi:0000000000000f94 rdi:0000000000001a69 
+  HW Registers:   
+  rax:0000000000000dc5 rbx:0000000000001580 rcx:0000000000000600 rdx:0000000000001b70 rsi:0000000000000f94 rdi:0000000000001a69 
+
+----.-------.-.--
+[INFO] Minimization attempt 10/10
+[PASS 38] Instruction Removal Pass
+
+--------------
+[PASS 39] Instruction Simplification Pass
+
+--------------
+[PASS 40] Constant Simplification Pass
+
+--------------
+[PASS 41] Mask Simplification Pass
+
+---..------.-------.----
+[PASS 42] Fence Insertion Pass
+
+--------.--...
+[PASS 43] Violation Comment Insertion
+[PASS 44] Label Removal Pass
+
+...------------------------------....---------------------------
+-----------..--------------------------.
+[PASS 45] Storing the results
