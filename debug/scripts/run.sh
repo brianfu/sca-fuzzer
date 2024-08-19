@@ -66,21 +66,11 @@ CURR_VIOL_DIR=$DBG_DIR/stored_vios/ddp_240814/violation-240813-202057;
 
 
 # echo "Reproduce $CURR_VIOL_DIR";
+# CURR_VIOL_DIR=$DBG_DIR/stored_vios/ddp_240814/violation-240813-202057;
 # python $RVZR_DIR/revizor.py reproduce -s $RVZR_DIR/base.json \
 # -i \
-#   $CURR_VIOL_DIR/min_input_sequence/min_input_0027.bin \
-#   $CURR_VIOL_DIR/min_input_sequence/min_input_0028.bin \
-#   $CURR_VIOL_DIR/min_input_sequence/min_input_0029.bin \
-#   $CURR_VIOL_DIR/min_input_sequence/min_input_0030.bin \
-#   $CURR_VIOL_DIR/min_input_sequence/min_input_0033.bin \
-#   $CURR_VIOL_DIR/min_input_sequence/min_input_0034.bin \
-#   $CURR_VIOL_DIR/min_input_sequence/min_input_0050.bin \
-#   $CURR_VIOL_DIR/min_input_sequence/min_input_0051.bin \
-#   $CURR_VIOL_DIR/min_input_sequence/min_input_0052.bin \
-#   $CURR_VIOL_DIR/min_input_sequence/min_input_0053.bin \
-#   $CURR_VIOL_DIR/min_input_sequence/min_input_0054.bin \
-#   $CURR_VIOL_DIR/min_input_sequence/min_input_0055.bin \
-# -c $CURR_VIOL_DIR/reproduce.yaml -t $CURR_VIOL_DIR/program_minimized.asm &> $CURR_VIOL_DIR/reproduce.out; exit;
+#   $CURR_VIOL_DIR/input_*.bin \
+# -c $CURR_VIOL_DIR/reproduce.yaml -t $CURR_VIOL_DIR/program_manmin.asm &> $CURR_VIOL_DIR/reproduce.out; exit;
 
 # echo "Reproduce $CURR_VIOL_DIR";
 # CURR_VIOL_DIR=$DBG_DIR/stored_vios/ddp_240814/violation-240813-174754;
@@ -105,13 +95,13 @@ CURR_VIOL_DIR=$DBG_DIR/stored_vios/ddp_240814/violation-240813-202057;
 echo "Minimize";
 MINIMIZE_INPUTS=50; # Default: 50; Lower is faster!
 python $RVZR_DIR/revizor.py minimize -s $RVZR_DIR/base.json \
- -c $CURR_VIOL_DIR/minimize.yaml -t $CURR_VIOL_DIR/program.asm -i $MINIMIZE_INPUTS \
- --enable-input-diff-pass 1 --input-outdir $CURR_VIOL_DIR/min_inputs \
+ -c $CURR_VIOL_DIR/minimize.yaml -t $CURR_VIOL_DIR/program_manmin.asm -i $MINIMIZE_INPUTS \
+ --enable-input-diff-pass 1 --input-outdir $CURR_VIOL_DIR/min_input_diff \
  --enable-comment-pass 1 \
- -o $CURR_VIOL_DIR/program_minimized.asm &> $CURR_VIOL_DIR/minimize.out; exit;
+ -o $CURR_VIOL_DIR/program_manmin_cmt.asm &> $CURR_VIOL_DIR/minimize.out; exit;
 
 # Inputs and program minimizer combo:
-#  --num-attempts 10 --enable-instruction-pass 1
+#  --num-attempts 10 --enable-instruction-pass 1 \
 #  --enable-input-diff-pass 1 --enable-input-seq-pass 1 --input-outdir $CURR_VIOL_DIR/min_input_sequence \
 #  --enable-comment-pass 1 \
 

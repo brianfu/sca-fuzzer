@@ -5,8 +5,6 @@
 .macro.switch.actor2.function_actor2_0: nop qword ptr [rax + 0xff]
 .section .data.main
 .function_main_1:
-
-# victim
 and rsi, 0b1111111111111 # instrumentation
 mov rsi, qword ptr [r14 + rsi]
 # mem access: [30] 0x1558 cl 21:24 | [55] 0x1558 cl 21:24
@@ -16,7 +14,6 @@ mov eax, dword ptr [r14 + rsi]
 and rax, 0b1111111111111 # instrumentation
 mov bx, word ptr [r14 + rax]
 # mem access: [30] 0x1fa1 cl 62:33 | [55] 0x1fa1 cl 62:33
-
 .macro.switch.actor2.function_actor2_1: nop qword ptr [rax + 0xff]
 .section .data.main
 .function_main_2:
@@ -50,8 +47,6 @@ pop rax # noremove
 # mem access: [30] 0x4fe8 cl 63:40 | [55] 0x4fe8 cl 63:40
 popfq  # noremove
 # mem access: [30] 0x4ff0 cl 63:48 | [55] 0x4ff0 cl 63:48
-
-# attacker
 and rdi, 0b1111111111111 #
 add rax, rdi
 and rbx, 0b1111111111111 # instrumentation
@@ -105,7 +100,6 @@ add dil, 43 # instrumentation
 and rcx, 0b1111111111111 # instrumentation
 mov esi, dword ptr [r14 + rcx]
 # mem access: [30] 0x4000 cl 0:0 | [55] 0x4000 cl 0:0
-
 .macro.switch.main.function_main_1: nop qword ptr [rax + 0xff]
 .section .data.actor2
 .function_actor2_1:
