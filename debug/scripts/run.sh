@@ -92,16 +92,6 @@ python $RVZR_DIR/revizor.py reproduce -s $RVZR_DIR/base.json \
   $CURR_VIOL_DIR/min_input_diff/min_input_0052.bin \
 -c $CURR_VIOL_DIR/reproduce.yaml -t $CURR_VIOL_DIR/program_manmin.asm &> $CURR_VIOL_DIR/reproduce.out; exit;
 
-# echo "Reproduce $CURR_VIOL_DIR";
-# CURR_VIOL_DIR=$DBG_DIR/stored_vios/ddp_240814/violation-240813-174754;
-# python $RVZR_DIR/revizor.py reproduce -s $RVZR_DIR/base.json \
-# -i \
-#   $CURR_VIOL_DIR/min_input_sequence/min_input_001*.bin \
-#   $CURR_VIOL_DIR/min_input_sequence/min_input_003*.bin \
-#   $CURR_VIOL_DIR/min_input_sequence/min_input_004*.bin \
-#   $CURR_VIOL_DIR/min_input_sequence/min_input_006*.bin \
-# -c $CURR_VIOL_DIR/reproduce.yaml -t $CURR_VIOL_DIR/program_minimized.asm &> $CURR_VIOL_DIR/reproduce.out; exit;
-
 
 # echo "Reproduce w/ fuzz";
 # python $RVZR_DIR/revizor.py fuzz -s $RVZR_DIR/base.json -i 10 -n 1000 -c $CURR_VIOL_DIR/reproduce.yaml -t $CURR_VIOL_DIR/program_minimized.asm 
@@ -112,13 +102,14 @@ python $RVZR_DIR/revizor.py reproduce -s $RVZR_DIR/base.json \
 
 #####
 
-echo "Minimize";
-MINIMIZE_INPUTS=50; # Default: 50; Lower is faster!
-python $RVZR_DIR/revizor.py minimize -s $RVZR_DIR/base.json \
- -c $CURR_VIOL_DIR/minimize.yaml -t $CURR_VIOL_DIR/program.asm -i $MINIMIZE_INPUTS \
- --enable-input-diff-pass 1 --enable-input-seq-pass 1 --input-outdir $CURR_VIOL_DIR/min_input_sequence \
- --enable-comment-pass 1 \
- -o $CURR_VIOL_DIR/program_cmt.asm &> $CURR_VIOL_DIR/minimize.out; exit;
+# echo "Minimize";
+# MINIMIZE_INPUTS=50; # Default: 50; Lower is faster!
+# python $RVZR_DIR/revizor.py minimize -s $RVZR_DIR/base.json \
+#  -c $CURR_VIOL_DIR/minimize.yaml -t $CURR_VIOL_DIR/program.asm -i $MINIMIZE_INPUTS \
+#  --num-attempts 10 --enable-instruction-pass 1 \
+#  --enable-input-diff-pass 1 --enable-input-seq-pass 1 --input-outdir $CURR_VIOL_DIR/min_input_sequence \
+#  --enable-comment-pass 1 \
+#  -o $CURR_VIOL_DIR/program_minimized.asm &> $CURR_VIOL_DIR/minimize.out; exit;
 
 # Inputs and program minimizer combo:
 #  --num-attempts 10 --enable-instruction-pass 1 \

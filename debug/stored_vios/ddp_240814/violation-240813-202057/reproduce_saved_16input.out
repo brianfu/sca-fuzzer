@@ -1,6 +1,6 @@
 
-INFO: [fuzzer] Starting at 10:32:32
-> Entering slow path...> Priming  1              > Increase sample size to 40> Priming  1              > Increase sample size to 160> Priming  1              > Increase sample size to 1000> Priming  1             
+INFO: [fuzzer] Starting at 23:39:19
+> Entering slow path...> Priming  1              > Increase sample size to 40> Priming  1              > Increase sample size to 160> Priming  1              > Increase sample size to 320> Priming  1             
 
 ================================ Violations detected ==========================
 Contract trace:
@@ -8,9 +8,9 @@ Contract trace:
 Hardware traces:
   Input group 1: [0]
   Input group 2: [16]
-  ^^^.......^......^^..^.........................................^ [1000   | 14    ]
-  ^^^.......^.....^^^..^....................^....................^ [0      | 966   ]
-  ^^^.......^.....^^^..^.........................................^ [0      | 20    ]
+  ^^^.......^......^^..^.........................................^ [320    | 11    ]
+  ^^^.......^.....^^^..^....................^....................^ [0      | 296   ]
+  ^^^.......^.....^^^..^.........................................^ [0      | 13    ]
 
 ================================ Violation Traces =============================
                       ##### Input 0 #####
@@ -1336,5 +1336,5 @@ Discarded Test Cases:
   Large Sample Check: 0
   Priming Check: 0
 
-Duration: 30.3
-Finished at 10:33:03
+Duration: 12.4
+Finished at 23:39:31
