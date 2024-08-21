@@ -1,3 +1,4 @@
+#!/bin/bash
 # Num of test cases more important than num on inputs (from past)
 # Do not parallelize, creates noise!
 
@@ -45,12 +46,6 @@ TEST_INPUTS=50; # Default: 50 (Less inputs, more test cases better)
 
 #####
 CURR_VIOL_DIR=$DBG_DIR/stored_vios/ddp_240814/violation-240813-202057;
-# violation-240813-225849 # No inputs leaked
-# violation-240814-003838 # Can't violate w/ og inputs, min prog; Identical inputs, no idea
-# violation-240813-174754 # Curr
-# violation-240813-202057 # Curr
-# violation-240813-200759 # Re-run, check that minimized comments appear
-# violation-240814-000211
 
 # for i in {1..5}; do
 #  echo -e -n  "\nReproduce $i for $CURR_VIOL_DIR";
@@ -63,35 +58,6 @@ CURR_VIOL_DIR=$DBG_DIR/stored_vios/ddp_240814/violation-240813-202057;
 # python $RVZR_DIR/revizor.py reproduce -s $RVZR_DIR/base.json \
 # -i $CURR_VIOL_DIR/input_*.bin \
 # -c $CURR_VIOL_DIR/reproduce.yaml -t $CURR_VIOL_DIR/program.asm &> $CURR_VIOL_DIR/reproduce.out; exit;
-
-
-echo "Reproduce $CURR_VIOL_DIR";
-CURR_VIOL_DIR=$DBG_DIR/stored_vios/ddp_240814/violation-240813-202057;
-# It doesn't actually care what's there; All that matters is PF is warmed up sufficiently 
-# Exactly 16 (incl. 0002) non-zero inputs needed before violating run triggers PF!
-python $RVZR_DIR/revizor.py reproduce -s $RVZR_DIR/base.json \
--i \
-  $CURR_VIOL_DIR/min_input_diff/min_input_0002.bin \
-  \
-  $CURR_VIOL_DIR/min_input_diff/min_input_0001.bin \
-  $CURR_VIOL_DIR/min_input_diff/min_input_0001.bin \
-  $CURR_VIOL_DIR/min_input_diff/min_input_0001.bin \
-  $CURR_VIOL_DIR/min_input_diff/min_input_0001.bin \
-  $CURR_VIOL_DIR/min_input_diff/min_input_0001.bin \
-  $CURR_VIOL_DIR/min_input_diff/min_input_0001.bin \
-  $CURR_VIOL_DIR/min_input_diff/min_input_0001.bin \
-  $CURR_VIOL_DIR/min_input_diff/min_input_0001.bin \
-  $CURR_VIOL_DIR/min_input_diff/min_input_0001.bin \
-  $CURR_VIOL_DIR/min_input_diff/min_input_0001.bin \
-  $CURR_VIOL_DIR/min_input_diff/min_input_0001.bin \
-  $CURR_VIOL_DIR/min_input_diff/min_input_0001.bin \
-  $CURR_VIOL_DIR/min_input_diff/min_input_0001.bin \
-  $CURR_VIOL_DIR/min_input_diff/min_input_0001.bin \
-  $CURR_VIOL_DIR/min_input_diff/min_input_0001.bin \
-  \
-  $CURR_VIOL_DIR/min_input_diff/min_input_0052.bin \
--c $CURR_VIOL_DIR/reproduce.yaml -t $CURR_VIOL_DIR/program_manmin.asm &> $CURR_VIOL_DIR/reproduce.out; exit;
-
 
 # echo "Reproduce w/ fuzz";
 # python $RVZR_DIR/revizor.py fuzz -s $RVZR_DIR/base.json -i 10 -n 1000 -c $CURR_VIOL_DIR/reproduce.yaml -t $CURR_VIOL_DIR/program_minimized.asm 
@@ -106,13 +72,13 @@ python $RVZR_DIR/revizor.py reproduce -s $RVZR_DIR/base.json \
 # MINIMIZE_INPUTS=50; # Default: 50; Lower is faster!
 # python $RVZR_DIR/revizor.py minimize -s $RVZR_DIR/base.json \
 #  -c $CURR_VIOL_DIR/minimize.yaml -t $CURR_VIOL_DIR/program.asm -i $MINIMIZE_INPUTS \
-#  --num-attempts 10 --enable-instruction-pass 1 \
+#  --num-attempts 10 --enable-instruction-pass 1 --enable-simplification-pass 1 \
 #  --enable-input-diff-pass 1 --enable-input-seq-pass 1 --input-outdir $CURR_VIOL_DIR/min_input_sequence \
 #  --enable-comment-pass 1 \
 #  -o $CURR_VIOL_DIR/program_minimized.asm &> $CURR_VIOL_DIR/minimize.out; exit;
 
 # Inputs and program minimizer combo:
-#  --num-attempts 10 --enable-instruction-pass 1 \
+#  --num-attempts 10 --enable-instruction-pass 1 --enable-simplification-pass 1 \
 #  --enable-input-diff-pass 1 --enable-input-seq-pass 1 --input-outdir $CURR_VIOL_DIR/min_input_sequence \
 #  --enable-comment-pass 1 \
 

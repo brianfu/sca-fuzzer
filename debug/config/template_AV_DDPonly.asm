@@ -9,8 +9,18 @@
     # Start measurement in attacker
     .macro.switch.actor2.function_actor2_0: 
 
-# Prefetching phase
+# Victim phase
 .function_main_1:
+
+    # Reset registers to break dep. on attacker; Prevent store bypass!
+    xor rax, rax # Reset flags reg
+    mov rax, qword ptr [r14 + 0x2000]
+    mov rbx, qword ptr [r14 + 0x2008]
+    mov rcx, qword ptr [r14 + 0x2010]
+    mov rdx, qword ptr [r14 + 0x2018]
+    mov rsi, qword ptr [r14 + 0x2020]
+    mov rdi, qword ptr [r14 + 0x2028]
+
     # X random instructions, Y mem. accesses
     .macro.random_instructions.48.24:
 
@@ -64,7 +74,7 @@
     pop rax         # noremove
     popfq           # noremove
 
-    # Attacker trains PFs
+    # Attacker
     .macro.random_instructions.40.20:
     
     # Handoff to victim, see if it can learn from training (would break noninterference)
