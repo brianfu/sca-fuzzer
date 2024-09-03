@@ -77,7 +77,10 @@ class ConfigurableGenerator(Generator, abc.ABC):
             memory_access_instructions = \
                 [i for i in self.non_control_flow_instructions if i.has_mem_operand]
             self.load_instruction = [i for i in memory_access_instructions if not i.has_write]
-            self.store_instructions = [i for i in memory_access_instructions if i.has_write]
+            if CONF.instruction_allow_stores:
+                self.store_instructions = [i for i in memory_access_instructions if i.has_write]
+            else:
+                self.store_instructions = []
             assert self.load_instruction or self.store_instructions, \
                 "The instruction set does not have memory accesses while `avg_mem_accesses > 0`"
         else:

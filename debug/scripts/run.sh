@@ -32,7 +32,7 @@ fi
 ## Run fuzzer ##
 mkdir -p $VIOL_DIR; # Just in case
 cd $RVZR_DIR;
-TEST_PROGS=100000; # Default: 1000000
+TEST_PROGS=1000000; # Default: 1000000
 TEST_INPUTS=50; # Default: 50 (Less inputs, more test cases better)
 
 # echo "Non-Template Run";
@@ -41,11 +41,16 @@ TEST_INPUTS=50; # Default: 50 (Less inputs, more test cases better)
 # echo "Template Run";
 # python $RVZR_DIR/revizor.py tfuzz -s $RVZR_DIR/base.json -n $TEST_PROGS -i $TEST_INPUTS -c $CFG_DIR/template.yaml -w $VIOL_DIR -t $CFG_DIR/template_noactors.asm --nonstop &> $SCRIPT_DIR/output.out;
 
-# echo "Noninterference Template Run";
-# python $RVZR_DIR/revizor.py tfuzz -s $RVZR_DIR/base.json -n $TEST_PROGS -i $TEST_INPUTS -c $CFG_DIR/template_nonif.yaml -w $VIOL_DIR -t $CFG_DIR/template_AV_DDPonly.asm --nonstop &> $SCRIPT_DIR/output.out;
+# echo "Noninterference Template Run"; 
+# python $RVZR_DIR/revizor.py tfuzz -s $RVZR_DIR/base.json -n $TEST_PROGS -i $TEST_INPUTS -c $CFG_DIR/template_nonif.yaml -w $VIOL_DIR -t $CFG_DIR/template_AV_DDPonly.asm --nonstop &> $SCRIPT_DIR/output.out &
+
+echo "DDP Run";
+python $RVZR_DIR/revizor.py reproduce -s $RVZR_DIR/base.json \
+-i $CFG_DIR/ddp/u2k_input_*.bin \
+-c $CFG_DIR/ddp/ddp_leak_u2k.yaml -t $CFG_DIR/ddp/ddp_leak_u2k.asm; exit;
 
 #####
-CURR_VIOL_DIR=$DBG_DIR/stored_vios/ddp_240814/violation-240813-202057;
+CURR_VIOL_DIR=$DBG_DIR/stored_vios/ddp_ssb_fix/violation-240821-132202;
 
 # for i in {1..5}; do
 #  echo -e -n  "\nReproduce $i for $CURR_VIOL_DIR";
@@ -70,12 +75,19 @@ CURR_VIOL_DIR=$DBG_DIR/stored_vios/ddp_240814/violation-240813-202057;
 
 # echo "Minimize";
 # MINIMIZE_INPUTS=50; # Default: 50; Lower is faster!
+# echo "Get minimized program";
 # python $RVZR_DIR/revizor.py minimize -s $RVZR_DIR/base.json \
 #  -c $CURR_VIOL_DIR/minimize.yaml -t $CURR_VIOL_DIR/program.asm -i $MINIMIZE_INPUTS \
 #  --num-attempts 10 --enable-instruction-pass 1 --enable-simplification-pass 1 \
 #  --enable-input-diff-pass 1 --enable-input-seq-pass 1 --input-outdir $CURR_VIOL_DIR/min_input_sequence \
 #  --enable-comment-pass 1 \
-#  -o $CURR_VIOL_DIR/program_minimized.asm &> $CURR_VIOL_DIR/minimize.out; exit;
+#  -o $CURR_VIOL_DIR/program_minimized.asm &> $CURR_VIOL_DIR/minimize_inputseq.out;
+# echo "Get minimized inputs";
+# python $RVZR_DIR/revizor.py minimize -s $RVZR_DIR/base.json \
+#  -c $CURR_VIOL_DIR/minimize.yaml -t $CURR_VIOL_DIR/program.asm -i $MINIMIZE_INPUTS \
+#  --enable-input-diff-pass 1 --input-outdir $CURR_VIOL_DIR/min_input_diff --enable-comment-pass 1 \
+#  -o $CURR_VIOL_DIR/program_cmt.asm &> $CURR_VIOL_DIR/minimize_inputdiff.out;
+# exit;
 
 # Inputs and program minimizer combo:
 #  --num-attempts 10 --enable-instruction-pass 1 --enable-simplification-pass 1 \
@@ -105,3 +117,6 @@ CURR_VIOL_DIR=$DBG_DIR/stored_vios/ddp_240814/violation-240813-202057;
 # scp -r $DBG_DIR brian@169.254.0.2:/home/brian/code/sca-fuzzer/dbg
 # mem access:.*\n
 # taskset -cp <core> <pid>
+
+# DDP_ASM=$RVZR_DIR/tests/x86_tests/asm/ddp.asm;
+# python $RVZR_DIR/revizor.py fuzz -s $RVZR_DIR/base.json -n $TEST_PROGS -i 1 -c $CFG_DIR/ddp/ddp_leak.yaml -w $VIOL_DIR -t $DDP_ASM; exit;

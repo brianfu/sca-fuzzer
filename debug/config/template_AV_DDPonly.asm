@@ -12,14 +12,15 @@
 # Victim phase
 .function_main_1:
 
-    # Reset registers to break dep. on attacker; Prevent store bypass!
-    xor rax, rax # Reset flags reg
-    mov rax, qword ptr [r14 + 0x2000]
-    mov rbx, qword ptr [r14 + 0x2008]
-    mov rcx, qword ptr [r14 + 0x2010]
-    mov rdx, qword ptr [r14 + 0x2018]
-    mov rsi, qword ptr [r14 + 0x2020]
-    mov rdi, qword ptr [r14 + 0x2028]
+    # # Reset registers to break dep. on attacker; Prevent store bypass!
+    # # Reset flags reg as well
+    # xor rax, rax                        # noremove
+    # mov rax, qword ptr [r14 + 0x2000]   # noremove
+    # mov rbx, qword ptr [r14 + 0x2008]   # noremove
+    # mov rcx, qword ptr [r14 + 0x2010]   # noremove
+    # mov rdx, qword ptr [r14 + 0x2018]   # noremove
+    # mov rsi, qword ptr [r14 + 0x2020]   # noremove
+    # mov rdi, qword ptr [r14 + 0x2028]   # noremove
 
     # X random instructions, Y mem. accesses
     .macro.random_instructions.48.24:

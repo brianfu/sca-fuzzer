@@ -2,7 +2,12 @@ instruction_set: x86-64
 
 contract_observation_clause: ct
 contract_execution_clause:
-  - noninterference # CT-Seq allowed despite SSBD off if stores are disabled
+  - bpas # CT-Seq allowed despite SSBD off if stores are disabled
+
+# Detect violations via Chi2-test with a threshold of 0.05
+# At the cost of false negatives; Closer to 1, less tolerance to noise
+analyser: chi2
+analyser_stat_threshold: 0.2 # Default: 0.2
 
 # Actor configuration: A host and a user process
 # Isolate actors when possible
@@ -10,15 +15,13 @@ actors:
   - main: # victim
     - mode: "host"
     - privilege_level: "kernel"
-  - actor2: # attacker
-    - mode: "host"
-    - privilege_level: "kernel"
     - observer: true
-
-# Detect violations via Chi2-test with a threshold of 0.05
-# At the cost of false negatives; Closer to 1, less tolerance to noise
-analyser: chi2
-analyser_stat_threshold: 0.2 # Default: 0.2
+  - actor2: # attacker
+    - mode: "guest"
+    - privilege_level: "kernel"
+  - actor3:
+    - mode: "guest"
+    - privilege_level: "kernel"
 
 # Executor
 executor_mode: P+P
@@ -69,7 +72,7 @@ instruction_categories:
   - LONGMODE-SEMAPHORE
 
 # Output
-# color: true
+color: true
 logging_modes:
   - info
   - stat
@@ -80,7 +83,7 @@ logging_modes:
   # - dbg_priming
   # - dbg_model
   # - dbg_executor_raw
-  # - dbg_dump_htraces
+  - dbg_dump_htraces
   # - dbg_dump_ctraces
   # - dbg_dump_traces_unlimited
 
