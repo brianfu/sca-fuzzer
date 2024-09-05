@@ -17,7 +17,7 @@
     # Enable PFs; edx:eax; store edx:eax, id ecx
     mov ecx, 0x1a4  # noremove
     mov edx, 0      # noremove
-    mov eax, 0b101111 # noremove; Disable all L2 PFs
+    mov eax, 0b101010 # noremove; Disable all L2 PFs
     wrmsr          # noremove
 
     .macro.switch_k2u.victim.0:
@@ -34,7 +34,7 @@
     # Enable PFs; edx:eax; store edx:eax, id ecx
     mov ecx, 0x1a4  # noremove
     mov edx, 0      # noremove
-    mov eax, 0b101111 # noremove; Disable all L2 PFs
+    mov eax, 0b101010 # noremove; Disable all L2 PFs
     wrmsr          # noremove
 
     nop
@@ -644,6 +644,9 @@
     imul rax, rax, 1
     imul rax, rax, 1
     imul rax, rax, 1
+    # imul qword ptr [rax], 1
+    # imul qword ptr [rax], 1
+    # imul qword ptr [rax], 1
 
     # mov rax, qword ptr [r14 + rcx] # [0x400]
 

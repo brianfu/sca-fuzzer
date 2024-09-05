@@ -1,0 +1,48 @@
+# Contract: ct-noninterference
+contract_observation_clause: ct
+contract_execution_clause:
+  - seq
+
+# Detect violations via Chi2-test with a threshold of 0.05
+analyser: chi2
+analyser_stat_threshold: 0.2
+
+actors:
+  - main:
+    - mode: "host"
+    - privilege_level: "kernel"
+  - victim:
+    - mode: "host"
+    - privilege_level: "user" # Should be "User" for DDPs to run
+
+# Executor
+executor_mode: P+P
+x86_executor_enable_ssbp_patch: false
+x86_executor_enable_ddp_prefetcher: true
+x86_executor_enable_prefetcher: true # Need stream PF for DDP to run
+
+# Misc. configuration
+inputs_per_class: 2
+executor_sample_sizes: # Run every test N times and compare distributions, each sample
+  - 15 # Used for early priming
+  # - 40
+  # - 160
+  # - 320 # Could be not large enough to deal with uarch noise
+
+executor_taskset: 1 # Use isolated core
+
+# Output
+color: true
+logging_modes:
+  - info
+  # - stat
+  # - dbg_coverage
+  # - dbg_violation
+  # - dbg_timestamp
+  # - dbg_generator
+  # - dbg_priming
+  - dbg_model
+  # - dbg_executor_raw
+  - dbg_dump_htraces
+  - dbg_dump_ctraces
+  # - dbg_dump_traces_unlimited

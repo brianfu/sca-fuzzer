@@ -44,13 +44,15 @@ TEST_INPUTS=50; # Default: 50 (Less inputs, more test cases better)
 # echo "Noninterference Template Run"; 
 # python $RVZR_DIR/revizor.py tfuzz -s $RVZR_DIR/base.json -n $TEST_PROGS -i $TEST_INPUTS -c $CFG_DIR/template_nonif.yaml -w $VIOL_DIR -t $CFG_DIR/template_AV_DDPonly.asm --nonstop &> $SCRIPT_DIR/output.out &
 
+#####
+
 echo "DDP Run";
 python $RVZR_DIR/revizor.py reproduce -s $RVZR_DIR/base.json \
--i $CFG_DIR/ddp/u2k_input_*.bin \
--c $CFG_DIR/ddp/ddp_leak_u2k.yaml -t $CFG_DIR/ddp/ddp_leak_u2k.asm; exit;
+-i $CFG_DIR/ddp/pc_input_*.bin \
+-c $CFG_DIR/ddp/ddp_leak_ptrchase.yaml -t $CFG_DIR/ddp/ddp_leak_ptrchase.asm; exit;
 
 #####
-CURR_VIOL_DIR=$DBG_DIR/stored_vios/ddp_ssb_fix/violation-240821-132202;
+CURR_VIOL_DIR=$DBG_DIR/stored_vios/post-1.3_non-ddp/violation-240717-092341;
 
 # for i in {1..5}; do
 #  echo -e -n  "\nReproduce $i for $CURR_VIOL_DIR";
