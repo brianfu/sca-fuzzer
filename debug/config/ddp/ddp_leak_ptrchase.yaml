@@ -41,8 +41,8 @@ logging_modes:
   # - dbg_timestamp
   # - dbg_generator
   # - dbg_priming
-  - dbg_model
+  # - dbg_model
   # - dbg_executor_raw
   - dbg_dump_htraces
-  - dbg_dump_ctraces
+  # - dbg_dump_ctraces
   # - dbg_dump_traces_unlimited
