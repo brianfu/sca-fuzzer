@@ -49,8 +49,8 @@ static int get_pfc_config_by_name(pfc_name_e pfc_name, struct pfc_config *config
             //   MEM_LOAD_RETIRED.L1_HIT: Counts retired load instructions with at least one uop
             //   that hit in the L1 data cache. This event includes all SW prefetches and lock
             //   instructions regardless of the data source.
-            config->evt_num = 0xd1;
-            config->umask = 0x01;
+            config->evt_num = 0x24;
+            config->umask = 0x27;
             break;
         case UOPS_ISSUED_ANY:
             //   UOPS_ISSUED.ANY: Counts the number of uops that the Resource Allocation Table (RAT)

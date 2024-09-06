@@ -25,7 +25,7 @@ def main(filename):
     # Keep memory content the same; Aligned VA spaces with other victim(s)
     # Fill the memory from 0x3000
     for i in range(0x3000, 0x4000, 0x10):
-        value = (0x2000 - 0x8) - (i % 0x3000)  # Each access is 1/8 of a cache line
+        value = (0x1000 - 0x8) - (i % 0x3000)  # Each access is 1/8 of a cache line
         binary_data[i:i + 8] = struct.pack('<Q', value)
 
     binary_data[0x4000:0x4008] = struct.pack('<Q', 0x0)  # Keep looping

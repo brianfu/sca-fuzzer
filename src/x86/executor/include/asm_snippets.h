@@ -393,7 +393,7 @@
         "   mov rax, qword ptr ["BASE" + "OFFSET"]  \n" \
             READ_PFC_ONE("0")                           \
         "   add "TMP", rdx                          \n" \
-        "   cmp "TMP", 0; jne 2f                    \n" \
+        "   cmp "TMP", 0; je 2f                    \n" \
         "      shl "DEST", 1                        \n" \
         "      jmp 3f                               \n" \
         "   2:                                      \n" \

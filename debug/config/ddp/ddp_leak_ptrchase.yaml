@@ -16,10 +16,10 @@ actors:
     - privilege_level: "user" # Should be "User" for DDPs to run
 
 # Executor
-executor_mode: P+P
+executor_mode: F+R
 x86_executor_enable_ssbp_patch: false
 x86_executor_enable_ddp_prefetcher: true
-x86_executor_enable_prefetcher: true # Need stream PF for DDP to run
+x86_executor_enable_prefetcher: false # Need stream PF for DDP to run
 
 # Misc. configuration
 inputs_per_class: 2
